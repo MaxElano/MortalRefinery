@@ -12,6 +12,10 @@ namespace IntroductieProject
     /// </summary>
     class GameEntity : GameObject
     {
+        public int Health { get; private set; }
+        public int Damage { get; private set; }
+        protected float MovementSpeed { get; private set; } 
+        
         /// <summary>
         /// This float represents the Orientation of the object, standard objects are oriented downwards, so they look at you!
         /// </summary>
@@ -39,7 +43,7 @@ namespace IntroductieProject
 
 
         /// <summary>
-        /// This constant makes sure that we can express "veclocity" in terms of pixel per second.
+        /// This constant makes sure that we can express "velocity" in terms of pixel per second.
         /// This conversion factor is based on the current updatespeed. So if you change the update speed, you need to change this also.
         /// </summary>
         protected readonly float velocityScale = 16.6667f;
