@@ -12,9 +12,10 @@ namespace IntroductieProject
     /// </summary>
     class GameEntity : GameObject
     {
-        public int Health { get; private set; }
-        public int Damage { get; private set; }
-        protected float MovementSpeed { get; private set; } 
+        public int Health { get; protected set; }
+        public int Damage { get; protected set; }
+        protected float MoveSpeed { get; set; }
+        public bool IsAlive { get; protected set; }
         
         /// <summary>
         /// This float represents the Orientation of the object, standard objects are oriented downwards, so they look at you!
@@ -39,7 +40,7 @@ namespace IntroductieProject
         /// In this case, this float represents the speed at which it moves.
         /// We made sure that only an entity can acccess its base speed.
         /// </summary>
-        protected float baseSpeed = 3;
+        //protected float baseSpeed = 3;
 
 
         /// <summary>
@@ -92,7 +93,7 @@ namespace IntroductieProject
         /// </summary>
         internal virtual void startMoving()
         {
-            this.velocity = this.baseSpeed;
+            this.velocity = this.MoveSpeed;
         }
 
         /// <summary>
@@ -115,8 +116,57 @@ namespace IntroductieProject
                 return new Rectangle((int)this.centerPosition.X - height / 2, (int)this.centerPosition.Y - width / 2, height, width);
             else
                 return new Rectangle((int)this.centerPosition.X - width / 2, (int)this.centerPosition.Y - height / 2, width, height);
-            
         }
+
+        /// <summary>
+        /// Damages the player.
+        /// </summary>
+        public virtual void GetHit(int damage)
+        {
+            this.Health -= damage;
+        }
+
+        /// <summary>
+        /// Heals the player.
+        /// </summary>
+        public virtual void Heal(int healing)
+        {
+            this.Health += healing;
+        }
+
+        /// <summary>
+        /// Resets everything after death.
+        /// </summary>
+        protected virtual void Die()
+        {
+            IsAlive = false;
+            stopMoving();
+        }
+
+        //public bool Collision(GameEntity other)
+        //{
+        //    // calculate the intersection between the two bounding boxes
+        //    Rectangle b = CollisionDetection.CalculateIntersection(BoundingBox, other.BoundingBox);
+
+        //    for (int x = 0; x < b.Width; x++)
+        //    {
+        //        for (int y = 0; y < b.Height; y++)
+        //        {
+        //            // get the correct pixel coordinates of both sprites
+        //            int thisX = b.X - (int)(GlobalPosition.X - Origin.X) + x;
+        //            int thisY = b.Y - (int)(GlobalPosition.Y - Origin.Y) + y;
+        //            int otherX = b.X - (int)(other.GlobalPosition.X - other.Origin.X) + x;
+        //            int otherY = b.Y - (int)(other.GlobalPosition.Y - other.Origin.Y) + y;
+
+        //            // if both pixels are not transparent, then there is a collision
+        //            if (!sprite.IsPixelTransparent(thisX, thisY) && !other.sprite.IsPixelTransparent(otherX, otherY))
+        //                return true;
+        //        }
+        //    }
+
+        //    // otherwise, there is no collision
+        //    return false;
+        //}
     }
 
     /// <summary>

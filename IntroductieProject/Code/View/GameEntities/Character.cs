@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Intrinsics;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -16,10 +17,21 @@ namespace IntroductieProject
     /// For example suppose you want your player to contain some "Attacks". Then do not add those here directly.
     /// Rather make an Attacks base class, and give a player a list of these attacks!
     /// </summary>
-    class Player : GameEntity
+    class Character : GameEntity
     {
-        internal Player(Vector2 center, int width, int height, string assetName = "steampunkL1") : base(center, width, height, assetName)
+        internal Character(Vector2 center, int width, int height, string assetName = "Warrior") : base(center, width, height, assetName)
         {
+            this.direction = direction;
+        }
+
+        private void shoot(string weapon)
+        {
+            new Projectile(centerPosition, 1, 1, new Vector2(1, 1), 1, 10);
+        }
+
+        public void update(GameTime gameTime)
+        {
+
         }
     }
 }
