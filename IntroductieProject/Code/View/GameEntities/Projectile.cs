@@ -10,19 +10,12 @@ namespace IntroductieProject
 {
     internal class Projectile : GameEntity
     {
-        public Projectile(Vector2 center, int width, int height, Vector2 direction, int moveSpeed, int damage, string assetName = "steampunk") : base (center, width, height, assetName)
+        public Projectile(Vector2 center, int width, int height, Vector2 direction, int moveSpeed, int damage, string assetName = "bridge") : base (center, width, height, assetName)
         {
             this.Damage = damage;
             this.MoveSpeed = moveSpeed;
-            this.startMoving();
-            Console.WriteLine("PROJECTILE");
-            IsAlive = true;
-            Health = 1;
         }
 
-        internal override void update(GameTime gameTime)
-        {
-            base.update(gameTime);
-        }
+        
     }
 }

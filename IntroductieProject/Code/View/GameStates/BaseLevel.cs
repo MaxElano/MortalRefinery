@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using IntroductieProject.Code.View.GameEntities.Classes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -28,7 +27,7 @@ namespace IntroductieProject
         {
             // A player and a bridge, and a lamp added, just to show how the code works.
             // You probably want to remove this code at some points
-            this.player = new Player(new Warrior(center, width, height), new Vector2(200, 700), 30, 30, "Steampunk");
+            this.player = new Player(player, new Vector2(200, 700), 30, 100, "player");
             this.gameEntities.Add(player);
 
             // We want to get a lamp, that stands up.
