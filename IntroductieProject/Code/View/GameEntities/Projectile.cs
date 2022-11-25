@@ -14,8 +14,16 @@ namespace IntroductieProject
         {
             this.Damage = damage;
             this.MoveSpeed = moveSpeed;
+            this.startMoving();
+            Console.WriteLine("PROJECTILE");
+            IsAlive = true;
+            Health = 1;
+            this.direction = direction;
         }
 
-        
+        internal override void update(GameTime gameTime)
+        {
+            base.update(gameTime);
+        }
     }
 }

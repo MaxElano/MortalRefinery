@@ -1,0 +1,54 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace IntroductieProject
+{
+    public class Item
+    {
+        public enum itemTypes
+        {
+            passive,
+            active,
+            orbital,
+            test
+        }
+
+        public itemTypes type;
+
+        public string name { get; protected set; }
+        public int Health { get; protected set; }
+        public int Damage { get; protected set; }
+        public float MoveSpeed { get; protected set; }
+        public int MaxHealth { get; protected set; }
+
+        public Item()
+        {
+            
+        }
+    }
+
+    public class damageUp : Item
+    {
+        public damageUp()
+        {
+            Health = 0;
+            Damage = 1;
+            MoveSpeed = 0;
+            MaxHealth = 0;
+            name = "damage up";
+        }
+    }
+
+    public class healthUp : Item
+    {
+        healthUp()
+        {
+            Health = 1;
+            Damage = 0;
+            MoveSpeed = 0;
+            MaxHealth = 1;
+            name = "damage up";
+        }
+    }
+}

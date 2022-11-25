@@ -27,7 +27,7 @@ namespace IntroductieProject
         {
             // A player and a bridge, and a lamp added, just to show how the code works.
             // You probably want to remove this code at some points
-            this.player = new Player(player, new Vector2(200, 700), 30, 100, "player");
+            this.player = new Player(null,new Vector2(200, 700), 30, 100, "player");
             this.gameEntities.Add(player);
 
             // We want to get a lamp, that stands up.

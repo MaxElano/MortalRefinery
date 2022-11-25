@@ -15,6 +15,7 @@ namespace IntroductieProject
         public int Health { get; protected set; }
         public int Damage { get; protected set; }
         protected float MoveSpeed { get; set; }
+        public float MaxHealth { get; protected set; }
         public bool IsAlive { get; protected set; }
         
         /// <summary>
@@ -143,30 +144,6 @@ namespace IntroductieProject
             stopMoving();
         }
 
-        //public bool Collision(GameEntity other)
-        //{
-        //    // calculate the intersection between the two bounding boxes
-        //    Rectangle b = CollisionDetection.CalculateIntersection(BoundingBox, other.BoundingBox);
-
-        //    for (int x = 0; x < b.Width; x++)
-        //    {
-        //        for (int y = 0; y < b.Height; y++)
-        //        {
-        //            // get the correct pixel coordinates of both sprites
-        //            int thisX = b.X - (int)(GlobalPosition.X - Origin.X) + x;
-        //            int thisY = b.Y - (int)(GlobalPosition.Y - Origin.Y) + y;
-        //            int otherX = b.X - (int)(other.GlobalPosition.X - other.Origin.X) + x;
-        //            int otherY = b.Y - (int)(other.GlobalPosition.Y - other.Origin.Y) + y;
-
-        //            // if both pixels are not transparent, then there is a collision
-        //            if (!sprite.IsPixelTransparent(thisX, thisY) && !other.sprite.IsPixelTransparent(otherX, otherY))
-        //                return true;
-        //        }
-        //    }
-
-        //    // otherwise, there is no collision
-        //    return false;
-        //}
     }
 
     /// <summary>
