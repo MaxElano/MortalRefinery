@@ -50,9 +50,17 @@ namespace IntroductieProject
             rangedEnemy.startMoving();
             this.gameEntities.Add(rangedEnemy);
 
-            GameEntity staticEnemy = new StaticRotatingEnemy(new Vector2(300, 200), 1, 1, 10, 0, this);
+            GameEntity staticEnemy = new StaticRotatingEnemy(new Vector2(300, 200), 1, 1, 10, 0, 0, this);
             staticEnemy.startMoving();
             this.gameEntities.Add(staticEnemy);
+
+            GameEntity staticEnemy2 = new StaticRotatingEnemy(new Vector2(1200, 500), 1, 1, 5, 5, 0, this);
+            staticEnemy2.startMoving();
+            this.gameEntities.Add(staticEnemy2);
+
+            GameEntity staticEnemy3 = new StaticRotatingEnemy(new Vector2(1200, 500), 1, 1, 5, 5, 180, this);
+            staticEnemy3.startMoving();
+            this.gameEntities.Add(staticEnemy3);
 
 
 

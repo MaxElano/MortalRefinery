@@ -14,12 +14,12 @@ namespace IntroductieProject
         List<FireBall> ballLocations = new List<FireBall>();
         int range;
         float angle;
-        internal StaticRotatingEnemy(Vector2 center, int width, int height, int size, int range, BaseLevel level, string assetName = "FireBall (2)") : base(center, width, height, 10, -1, level, assetName)
+        internal StaticRotatingEnemy(Vector2 center, int width, int height, int size, int range, int startAngle, BaseLevel level, string assetName = "FireBall (2)") : base(center, width, height, 10, -1, level, assetName)
         {
             // Set the range and size of the enemy
             // the size is the ammount of fireballs
             // the range is de distand from the centre where the first fireball is. this way there can be a whole in the middle for the player to stand in safely.
-            for (int i = 1; i < size + range; i++)
+            for (int i = 0; i < size + range; i++)
             {
                 if (i >= range)
                     ballLocations.Add(new FireBall(center, width * 16, height * 16, i));
@@ -29,6 +29,7 @@ namespace IntroductieProject
             this.range = range;
             this.width = width * size * 32;
             this.height = height * size * 32;
+            angle = startAngle;
         }
 
         internal override void update(GameTime time)
@@ -64,9 +65,6 @@ namespace IntroductieProject
 
         internal override void draw(SpriteBatch batch)
         {
-            //base.draw(batch);
-
-
             // draw each fireball.
             for (int i = range; i < ballLocations.Count; i++)
             {
