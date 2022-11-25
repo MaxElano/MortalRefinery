@@ -22,6 +22,8 @@ namespace IntroductieProject
             setdirection();
         }
 
+
+        // calculate the direction to move in to reach the player.
         internal virtual void setdirection()
         {
             Vector2 Distance = level.player.centerPosition - centerPosition;

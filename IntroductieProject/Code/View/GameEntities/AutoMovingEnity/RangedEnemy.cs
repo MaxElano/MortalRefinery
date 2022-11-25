@@ -20,6 +20,8 @@ namespace IntroductieProject
 
             Vector2 Distance = level.player.centerPosition - centerPosition;
 
+
+            // if the player is in range stop moving
             if (Distance.Length() < range)
                 stopMoving();
             else

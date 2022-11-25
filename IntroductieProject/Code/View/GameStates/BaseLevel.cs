@@ -40,21 +40,7 @@ namespace IntroductieProject
             lamp.orientation = EntityOrientation.Right;
             // We set the bridge to start moving
             lamp.startMoving();
-            //this.gameEntities.Add(lamp);
-
-            GameEntity chasingEnemy = new ChasingEnemy(new Vector2(100, 800), 50, 50, this);
-            chasingEnemy.startMoving();
-            //this.gameEntities.Add(chasingEnemy);
-
-            GameEntity rangedEnemy = new RangedEnemy(new Vector2(500, 500), 50, 50, 400, this);
-            chasingEnemy.startMoving();
-            //this.gameEntities.Add(rangedEnemy);
-
-            GameEntity staticRotatingEnemy = new StaticRotatingEnemy(new Vector2(1000, 500), 1, 1, this);
-            this.gameEntities.Add(staticRotatingEnemy);
-
-
-
+            this.gameEntities.Add(lamp);
 
             // Lastly, add all game entities to the set of children.
             // Note that this makes game entities children, but not all children are game entities!
