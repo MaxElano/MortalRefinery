@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace IntroductieProject
 {
@@ -22,7 +23,7 @@ namespace IntroductieProject
         public float MoveSpeed { get; protected set; }
         public int MaxHealth { get; protected set; }
 
-        public Item() : base (new Microsoft.Xna.Framework.Vector2(100,100), 32, 32, "damageUpSprite")
+        public Item(Vector2 center, int width, int height, string assetName) : base (center, width, height, assetName)
         {
             
         }
@@ -30,7 +31,7 @@ namespace IntroductieProject
 
     class damageUp : Item
     {
-        public damageUp()
+        public damageUp(Vector2 center, int width, int height, string assetName) : base(center, width, height, assetName)
         {
             Health = 0;
             Damage = 1;
@@ -42,7 +43,7 @@ namespace IntroductieProject
 
     class healthUp : Item
     {
-        healthUp()
+        public healthUp(Vector2 center, int width, int height, string assetName) : base(center, width, height, assetName)
         {
             Health = 1;
             Damage = 0;

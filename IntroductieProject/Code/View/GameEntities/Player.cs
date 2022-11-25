@@ -20,8 +20,8 @@ namespace IntroductieProject
             player = character;
             projectiles = new List<Projectile>();
             items = new List<Item>();
-            item = new damageUp();
-            item2 = new Item();
+            item = new damageUp(new Vector2(100,100), 32, 32, "damageUpSprite");
+            item2 = new healthUp(new Vector2(200, 100), 32, 32, "damageUpSprite");
         }
 
         internal override void update(GameTime gameTime)
@@ -45,6 +45,8 @@ namespace IntroductieProject
 
         internal override void draw(SpriteBatch batch)
         {
+            item.draw(batch);
+            item2.draw(batch);
             base.draw(batch);
 
             foreach (Projectile p in projectiles)
@@ -52,7 +54,7 @@ namespace IntroductieProject
         }
         public void ChangeStats(Item item)
         {
-            this.Health += item.Health;
+            player.Health += item.Health;
             this.Damage += item.Damage; 
             this.MoveSpeed += item.MoveSpeed;
             this.MaxHealth += item.MaxHealth;
