@@ -88,6 +88,18 @@ namespace IntroductieProject
             }
         }
 
+        protected Vector2 rotateEntity(double angleInDegrees, int distanceFromTarget)
+        {
+            double angleInRadians = angleInDegrees * (Math.PI / 180);
+            double cosTheta = Math.Cos(angleInRadians);
+            double sinTheta = Math.Sin(angleInRadians);
+            return new Vector2
+            {
+                X = (int) (cosTheta * distanceFromTarget),
+                Y = (int) (sinTheta * distanceFromTarget)
+            };
+        }
+
         /// <summary>
         /// This function shows how other classes can safely ask a game entity to perform an action with its private properties.
         /// In this specific case, they can ask the entity to start moving. But the entity itself can decide for itself what that actually means!

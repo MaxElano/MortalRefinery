@@ -14,6 +14,7 @@ namespace IntroductieProject
             this.Health = 100;
             this.Damage = 10;
             this.MoveSpeed = 5;
+            this.MaxHealth = this.Health;
         }
 
     }

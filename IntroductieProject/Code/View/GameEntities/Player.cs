@@ -6,46 +6,60 @@ using System.Text;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using System.Security.Authentication;
+using IntroductieProject.Code.View.GameEntities;
+using System.Web;
+using System.Diagnostics;
 
 namespace IntroductieProject
 {
     internal class Player : GameEntity
     {
         List<Item> items;
-        Character player;
         List<Projectile> projectiles;
         Item item;
         Item item2;
-        public Player(Character character, Vector2 center, int width, int height, string assetName) : base (center, width, height, assetName)
+        List<Orbital> orbitals;
 
         public Player(Vector2 center, int width, int height, string assetName) : base (center, width, height, assetName)
         {
             projectiles = new List<Projectile>();
             items = new List<Item>();
+            orbitals = new List<Orbital>();
             item = new damageUp(new Vector2(100,100), 32, 32, "damageUpSprite");
             item2 = new healthUp(new Vector2(200, 100), 32, 32, "damageUpSprite");
+            orbitals.Add(new Orbital(200,new Vector2(center.X + 100, center.Y), 32, 32, 1, 10, "damageUpSprite"));
+            orbitals.Add(new Orbital(300, new Vector2(center.X + 100, center.Y), 32, 32, 1, 10, "damageUpSprite"));
+            orbitals.Add(new Orbital(100, new Vector2(center.X + 100, center.Y), 32, 32, 1, 10, "damageUpSprite"));
         }
 
         internal override void update(GameTime gameTime)
         {
+            foreach (Orbital orbital in orbitals)
+            {
+                orbital.update(gameTime);
+                orbital.updatePosition(centerPosition);
+            }
             base.update(gameTime);
             
             foreach (Projectile p in projectiles)
                 p.update(gameTime);
 
             InputHelper();
+
         }
 
         protected void Shoot()
         {
-            projectiles.Add(new Projectile(centerPosition, 100, 100, new Vector2(InputManager.MouseState.Position.X - centerPosition.X, InputManager.MouseState.Position.Y - centerPosition.Y), 10, 5));
-            ChangeStats(item);
+            projectiles.Add(new Projectile(centerPosition, (int)(10 + 0.10 * Damage), (int)(10 + 0.10 * Damage), new Vector2(InputManager.MouseState.Position.X - centerPosition.X, InputManager.MouseState.Position.Y - centerPosition.Y), 10, 5));
         }
 
         internal override void draw(SpriteBatch batch)
         {
             item.draw(batch);
             item2.draw(batch);
+            foreach(Orbital huts in orbitals)
+                huts.draw(batch);
+            
             base.draw(batch);
 
             foreach (Projectile p in projectiles)
@@ -53,11 +67,13 @@ namespace IntroductieProject
         }
         public void ChangeStats(Item item)
         {
-            player.Health += item.Health;
+            this.Health += item.Health;
             this.Damage += item.Damage; 
             this.MoveSpeed += item.MoveSpeed;
             this.MaxHealth += item.MaxHealth;
             //items.Add(item); bij de oncollision
+
+            Debug.WriteLine(Health + " " + Damage + " " + MoveSpeed + " " + MaxHealth);
         }
         protected void InputHelper()
         {
@@ -65,6 +81,22 @@ namespace IntroductieProject
             {
                 Shoot();
             }
+
+            if (InputManager.isKeyDown(Keys.E))
+            {
+                orbitals.Add(new Orbital(200, new Vector2(centerPosition.X + 100, centerPosition.Y), 32, 32, 1, 10, "damageUpSprite"));
+            }
+
+            if (InputManager.isKeyDown(Keys.R))
+            {
+                ChangeStats(item);
+            }
+
+            if (InputManager.isKeyDown(Keys.T))
+            {
+                ChangeStats(item2);
+            }
+
             if (InputManager.isKeyDown(Keys.A))
             {
                 direction = new Vector2(-1, 0);
