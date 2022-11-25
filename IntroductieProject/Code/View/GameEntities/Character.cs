@@ -21,16 +21,12 @@ namespace IntroductieProject
     {
         internal Character(Vector2 center, int width, int height, string assetName = "Warrior") : base(center, width, height, assetName)
         {
-            this.direction = direction;
+
         }
 
-        private void shoot(string weapon)
+        internal override void update(GameTime gameTime)
         {
-            new Projectile(centerPosition, 1, 1, new Vector2(1, 1), 1, 10);
-        }
-
-        public void update(GameTime gameTime)
-        {
+            base.update(gameTime);
 
         }
     }
