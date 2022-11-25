@@ -25,6 +25,18 @@
 /processorParam:TextureFormat=Color
 /build:background.jpg
 
+#begin bridge_leftup.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:bridge_leftup.png
+
 #begin bridge.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -37,7 +49,7 @@
 /processorParam:TextureFormat=Color
 /build:bridge.png
 
-#begin bridge_leftup.png
+#begin damageUpSprite.webp
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -47,7 +59,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:bridge_leftup.png
+/build:damageUpSprite.webp
 
 #begin lampDownLooking.png
 /importer:TextureImporter
