@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace IntroductieProject
 {
@@ -26,13 +27,20 @@ namespace IntroductieProject
             }
             foreach (Projectile p in projectiles)
                 p.update(gameTime);
-
             Console.WriteLine("IS updating");
         }
 
         protected void Shoot()
         {
-            projectiles.Add(new Projectile(centerPosition, 100, 100, new Vector2(InputManager.MouseState.Position.X, InputManager.MouseState.Position.Y), 10, 5));
+            projectiles.Add(new Projectile(centerPosition, 100, 100, new Vector2(InputManager.MouseState.Position.X - centerPosition.X, InputManager.MouseState.Position.Y - centerPosition.Y), 10, 5));
+        }
+
+        internal override void draw(SpriteBatch batch)
+        {
+            base.draw(batch);
+
+            foreach (Projectile p in projectiles)
+                p.draw(batch);
         }
     }
 }

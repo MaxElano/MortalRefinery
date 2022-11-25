@@ -18,6 +18,7 @@ namespace IntroductieProject
             Console.WriteLine("PROJECTILE");
             IsAlive = true;
             Health = 1;
+            this.direction = direction;
         }
 
         internal override void update(GameTime gameTime)
