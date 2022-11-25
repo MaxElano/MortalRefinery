@@ -82,7 +82,7 @@ namespace IntroductieProject
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="collider"></param>
-        private void handleCollisionsPoorly(GameObject sender, GameObject collider)
+        public void handleCollisionsPoorly(GameObject sender, GameObject collider)
         {
             // If we attach this handler, only to entities, we can safely assume that the sender is a game entity
             GameEntity entity = (GameEntity)sender;

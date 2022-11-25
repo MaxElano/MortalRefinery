@@ -12,7 +12,6 @@ namespace IntroductieProject
     internal class Player : GameEntity
     {
         List<Item> items;
-        Character player;
         List<Projectile> projectiles;
         Item item;
 
@@ -35,6 +34,7 @@ namespace IntroductieProject
 
         protected void Shoot()
         {
+            
             projectiles.Add(new Projectile(centerPosition, 100, 100, new Vector2(InputManager.MouseState.Position.X - centerPosition.X, InputManager.MouseState.Position.Y - centerPosition.Y), 10, 5));
             ChangeStats(item);
         }
@@ -111,5 +111,6 @@ namespace IntroductieProject
             if (!InputManager.isKeyDown(Keys.A) && !InputManager.isKeyDown(Keys.W) && !InputManager.isKeyDown(Keys.S) && !InputManager.isKeyDown(Keys.D))
                 stopMoving();
         }
+
     }
 }
