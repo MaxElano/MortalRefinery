@@ -15,6 +15,10 @@ namespace IntroductieProject
         List<Projectile> projectiles;
         Item item;
         Item item2;
+        public float FireRate { get; protected set; }
+
+        float shootCooldown;
+        bool canShoot;
 
         public Player(Vector2 center, int width, int height, string assetName) : base (center, width, height, assetName)
         {
@@ -22,6 +26,8 @@ namespace IntroductieProject
             items = new List<Item>();
             item = new damageUp(new Vector2(100,100), 32, 32, "damageUpSprite");
             item2 = new healthUp(new Vector2(200, 100), 32, 32, "damageUpSprite");
+            shootCooldown = (1 / FireRate) * 1000;
+            canShoot = true;
         }
 
         internal override void update(GameTime gameTime)
@@ -30,15 +36,25 @@ namespace IntroductieProject
             
             foreach (Projectile p in projectiles)
                 p.update(gameTime);
+            
+            shootCooldown -= gameTime.ElapsedGameTime.Milliseconds;
+            if (shootCooldown <= 0)
+            {
+                canShoot = true;
+            }
 
-            InputHelper();
+            InputHelper(gameTime);
         }
 
-        protected void Shoot()
+        protected void Shoot(GameTime gameTime)
         {
-            
-            projectiles.Add(new Projectile(centerPosition, 100, 100, new Vector2(InputManager.MouseState.Position.X - centerPosition.X, InputManager.MouseState.Position.Y - centerPosition.Y), 10, 5));
-            ChangeStats(item);
+            if (canShoot)
+            {
+                projectiles.Add(new Projectile(centerPosition, 100, 100, new Vector2(InputManager.MouseState.Position.X - centerPosition.X, InputManager.MouseState.Position.Y - centerPosition.Y), 10, 5));
+                ChangeStats(item);
+                shootCooldown = (1 / FireRate) * 1000;
+                canShoot = false;
+            }
         }
 
         internal override void draw(SpriteBatch batch)
@@ -52,17 +68,17 @@ namespace IntroductieProject
         }
         public void ChangeStats(Item item)
         {
-            player.Health += item.Health;
+            this.Health += item.Health;
             this.Damage += item.Damage; 
             this.MoveSpeed += item.MoveSpeed;
             this.MaxHealth += item.MaxHealth;
             //items.Add(item); bij de oncollision
         }
-        protected void InputHelper()
+        protected void InputHelper(GameTime gameTime)
         {
             if (InputManager.isKeyDown(Keys.Space))
             {
-                Shoot();
+                Shoot(gameTime);
             }
             if (InputManager.isKeyDown(Keys.A))
             {

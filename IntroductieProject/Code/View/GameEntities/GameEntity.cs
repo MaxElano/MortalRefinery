@@ -17,7 +17,6 @@ namespace IntroductieProject
         public float MoveSpeed { get; protected set; }
         public float MaxHealth { get; protected set; }
         public bool IsAlive { get; protected set; }
-        public float FireRate { get; protected set; }
         
 
         /// <summary>
