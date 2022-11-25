@@ -5,9 +5,9 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
 
-namespace IntroductieProject.Code.View.GameEntities.Classes
+namespace IntroductieProject
 {
-    internal class Warrior : Character
+    internal class Warrior : Player
     {
         public Warrior(Vector2 center, int width, int height, string assetName = "Warrior") : base(center, width, height, assetName)
         {

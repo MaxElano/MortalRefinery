@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
+using System.Security.Authentication;
 
 namespace IntroductieProject
 {
@@ -15,9 +16,8 @@ namespace IntroductieProject
         List<Projectile> projectiles;
         Item item;
 
-        public Player(Character character, Vector2 center, int width, int height, string assetName) : base (center, width, height, assetName)
+        public Player(Vector2 center, int width, int height, string assetName) : base (center, width, height, assetName)
         {
-            player = character;
             projectiles = new List<Projectile>();
             items = new List<Item>();
             item = new damageUp();
@@ -26,14 +26,11 @@ namespace IntroductieProject
         internal override void update(GameTime gameTime)
         {
             base.update(gameTime);
-            if (InputManager.isKeyDown(Keys.Space))
-            {
-                Shoot();
-            }
+            
             foreach (Projectile p in projectiles)
                 p.update(gameTime);
-            Console.WriteLine("IS updating");
-            
+
+            InputHelper();
         }
 
         protected void Shoot()
@@ -56,6 +53,63 @@ namespace IntroductieProject
             this.MoveSpeed += item.MoveSpeed;
             this.MaxHealth += item.MaxHealth;
             //items.Add(item); bij de oncollision
+        }
+        protected void InputHelper()
+        {
+            if (InputManager.isKeyDown(Keys.Space))
+            {
+                Shoot();
+            }
+            if (InputManager.isKeyDown(Keys.A))
+            {
+                direction = new Vector2(-1, 0);
+                if (velocity == 0)
+                    startMoving();
+            }
+            if (InputManager.isKeyDown(Keys.D))
+            {
+                direction = new Vector2(1, 0);
+                if (velocity == 0)
+                    startMoving();
+            }
+            if (InputManager.isKeyDown(Keys.W))
+            {
+                direction = new Vector2(0, -1);
+                if (velocity == 0)
+                    startMoving();
+            }
+            if (InputManager.isKeyDown(Keys.S))
+            {
+                direction = new Vector2(0, 1);
+                if (velocity == 0)
+                    startMoving();
+            }
+            if (InputManager.isKeyDown(Keys.A) && InputManager.isKeyDown(Keys.S))
+            {
+                direction = new Vector2(-1, 1);
+                if (velocity == 0)
+                    startMoving();
+            }
+            if (InputManager.isKeyDown(Keys.W) && InputManager.isKeyDown(Keys.A))
+            {
+                direction = new Vector2(-1, -1);
+                if (velocity == 0)
+                    startMoving();
+            }
+            if (InputManager.isKeyDown(Keys.S) && InputManager.isKeyDown(Keys.D))
+            {
+                direction = new Vector2(1, 1);
+                if (velocity == 0)
+                    startMoving();
+            }
+            if (InputManager.isKeyDown(Keys.D) && InputManager.isKeyDown(Keys.W))
+            {
+                direction = new Vector2(1, -1);
+                if (velocity == 0)
+                    startMoving();
+            }
+            if (!InputManager.isKeyDown(Keys.A) && !InputManager.isKeyDown(Keys.W) && !InputManager.isKeyDown(Keys.S) && !InputManager.isKeyDown(Keys.D))
+                stopMoving();
         }
     }
 }
