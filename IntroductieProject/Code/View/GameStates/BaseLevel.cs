@@ -42,6 +42,20 @@ namespace IntroductieProject
             lamp.startMoving();
             this.gameEntities.Add(lamp);
 
+            GameEntity chasingEnemy = new ChasingEnemy(new Vector2(700, 900), 100, 100, 5, 120, this);
+            chasingEnemy.startMoving();
+            this.gameEntities.Add(chasingEnemy);
+
+            GameEntity rangedEnemy = new RangedEnemy(new Vector2(500, 600), 100, 100, 400, 5, 120, this);
+            rangedEnemy.startMoving();
+            this.gameEntities.Add(rangedEnemy);
+
+            GameEntity staticEnemy = new StaticRotatingEnemy(new Vector2(300, 200), 1, 1, 10, 0, this);
+            staticEnemy.startMoving();
+            this.gameEntities.Add(staticEnemy);
+
+
+
             // Lastly, add all game entities to the set of children.
             // Note that this makes game entities children, but not all children are game entities!
             foreach (GameEntity entity in this.gameEntities)
@@ -61,9 +75,16 @@ namespace IntroductieProject
             // That is VERY slow :P
             // The update function is called many times per second. Eventually you need a more efficient solution that the one presented here.
             // the if-statement checks if the object is not colliding with itself.
-            foreach (GameEntity entity in this.gameEntities)
+            foreach (GameEntity entity in this.gameEntities.ToArray())
+            {
+                if (entity.Health == 0)
+                {
+                    gameEntities.Remove(entity);
+                    this.children.Remove(entity);
+                }
                 foreach (GameEntity other in this.gameEntities)
                     entity.fireCollisionEvent(other);
+            }
 
             base.update(time);
         }

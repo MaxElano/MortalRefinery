@@ -20,7 +20,8 @@ namespace IntroductieProject
     {
         internal Player(Vector2 center, int width, int height, string assetName = "steampunkL1") : base(center, width, height, assetName)
         {
-
+            Damage = 1;
+            Health = 1;
         }
     }
 }

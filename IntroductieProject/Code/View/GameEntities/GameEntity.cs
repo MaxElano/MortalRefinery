@@ -12,8 +12,8 @@ namespace IntroductieProject
     /// </summary>
     class GameEntity : GameObject
     {
-        public int Health { get; private set; }
-        public int Damage { get; private set; }
+        public int Health { get; internal set; }
+        public int Damage { get; internal set; }
         protected float MovementSpeed { get; private set; } 
         
         /// <summary>

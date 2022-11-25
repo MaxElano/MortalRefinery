@@ -10,7 +10,7 @@ namespace IntroductieProject
     {
         internal float angle;
 
-        internal ChasingEnemy(Vector2 center, int width, int height, BaseLevel level, string assetName = "Giant_Bat") : base(center, width, height, level, assetName)
+        internal ChasingEnemy(Vector2 center, int width, int height, int damage, int health, BaseLevel level, string assetName = "Giant_Bat") : base(center, width, height, damage, health, level, assetName)
         {
 
         }
@@ -38,10 +38,15 @@ namespace IntroductieProject
             direction.Y = (float)Math.Sin(angle);
 
             if (level.player.getBoundingBox().Intersects(getBoundingBox()))
+            {
                 stopMoving();
+                if (level.player.Damage > Health)
+                    Health -= Health;
+                else
+                    Health -= level.player.Damage;
+            }
             else
                 startMoving();
-
         }
     }
 }

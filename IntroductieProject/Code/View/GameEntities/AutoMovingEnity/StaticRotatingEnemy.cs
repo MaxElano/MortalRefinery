@@ -14,7 +14,7 @@ namespace IntroductieProject
         List<FireBall> ballLocations = new List<FireBall>();
         int range;
         float angle;
-        internal StaticRotatingEnemy(Vector2 center, int width, int height, BaseLevel level, int size = 5, int range = 0, string assetName = "FireBall (2)") : base(center, width, height, level, assetName)
+        internal StaticRotatingEnemy(Vector2 center, int width, int height, int size, int range, BaseLevel level, string assetName = "FireBall (2)") : base(center, width, height, 10, -1, level, assetName)
         {
             // Set the range and size of the enemy
             // the size is the ammount of fireballs
@@ -59,7 +59,7 @@ namespace IntroductieProject
             if (hit)
                 return base.getBoundingBox();
             else
-                return ballLocations[0].Bounds;
+                return ballLocations[ballLocations.Count - 1].Bounds;
         }
 
         internal override void draw(SpriteBatch batch)
