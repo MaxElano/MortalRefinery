@@ -14,12 +14,14 @@ namespace IntroductieProject
         Character player;
         List<Projectile> projectiles;
         Item item;
+        Item item2;
         public Player(Character character, Vector2 center, int width, int height, string assetName) : base (center, width, height, assetName)
         {
             player = character;
             projectiles = new List<Projectile>();
             items = new List<Item>();
             item = new damageUp();
+            item2 = new Item();
         }
 
         internal override void update(GameTime gameTime)

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace IntroductieProject
 {
-    public class Item
+    class Item : GameObject
     {
         public enum itemTypes
         {
@@ -22,13 +22,13 @@ namespace IntroductieProject
         public float MoveSpeed { get; protected set; }
         public int MaxHealth { get; protected set; }
 
-        public Item()
+        public Item() : base (new Microsoft.Xna.Framework.Vector2(100,100), 32, 32, "damageUpSprite")
         {
             
         }
     }
 
-    public class damageUp : Item
+    class damageUp : Item
     {
         public damageUp()
         {
@@ -40,7 +40,7 @@ namespace IntroductieProject
         }
     }
 
-    public class healthUp : Item
+    class healthUp : Item
     {
         healthUp()
         {
