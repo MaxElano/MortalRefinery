@@ -10,7 +10,7 @@ namespace IntroductieProject
 {
     internal class Projectile : GameEntity
     {
-        public Projectile(Vector2 center, int width, int height, Vector2 direction, int moveSpeed, int damage, string assetName = "bridge") : base (center, width, height, assetName)
+        public Projectile(Vector2 center, int width, int height, Vector2 direction, int moveSpeed, int damage, string assetName = "Bullet1") : base (center, width, height, assetName)
         {
             this.Damage = damage;
             this.MoveSpeed = moveSpeed;

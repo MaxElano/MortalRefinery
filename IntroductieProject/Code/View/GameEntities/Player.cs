@@ -14,6 +14,7 @@ namespace IntroductieProject
         Character player;
         List<Projectile> projectiles;
         Item item;
+
         public Player(Character character, Vector2 center, int width, int height, string assetName) : base (center, width, height, assetName)
         {
             player = character;
