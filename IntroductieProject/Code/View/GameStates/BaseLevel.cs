@@ -35,7 +35,7 @@ namespace IntroductieProject
             // This is why we define a width and a height as if the lamp is lying down: more width than height.
             // We then rotate the lamp.
             // "beatiful code" would let the lamp change its own sprite. This should not be the responsibility of this level class, so go and add code in GameEntity that can get its own sprite!
-            GameEntity lamp = new GameEntity(new Vector2(700, 700), 100, 30, "LampRightLooking");
+            GameEntity lamp = new RangedEnemy(new Vector2(700, 700), 100, 30, 400, this, "LampRightLooking");
 
             lamp.orientation = EntityOrientation.Right;
             // We set the bridge to start moving
