@@ -86,7 +86,7 @@ namespace IntroductieProject
         {
             // If we attach this handler, only to entities, we can safely assume that the sender is a game entity
             GameEntity entity = (GameEntity)sender;
-            entity.direction = new Vector2(-entity.direction.X, entity.direction.Y);
+            //entity.direction = new Vector2(-entity.direction.X, entity.direction.Y);
         }
 
         /// <summary>

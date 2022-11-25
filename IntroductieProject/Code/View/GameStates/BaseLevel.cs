@@ -35,12 +35,26 @@ namespace IntroductieProject
             // This is why we define a width and a height as if the lamp is lying down: more width than height.
             // We then rotate the lamp.
             // "beatiful code" would let the lamp change its own sprite. This should not be the responsibility of this level class, so go and add code in GameEntity that can get its own sprite!
-            GameEntity lamp = new RangedEnemy(new Vector2(700, 700), 100, 30, 400, this, "LampRightLooking");
+            GameEntity lamp = new GameEntity(new Vector2(700, 700), 100, 30, "lampRightLooking");
 
             lamp.orientation = EntityOrientation.Right;
             // We set the bridge to start moving
             lamp.startMoving();
-            this.gameEntities.Add(lamp);
+            //this.gameEntities.Add(lamp);
+
+            GameEntity chasingEnemy = new ChasingEnemy(new Vector2(100, 800), 50, 50, this);
+            chasingEnemy.startMoving();
+            //this.gameEntities.Add(chasingEnemy);
+
+            GameEntity rangedEnemy = new RangedEnemy(new Vector2(500, 500), 50, 50, 400, this);
+            chasingEnemy.startMoving();
+            //this.gameEntities.Add(rangedEnemy);
+
+            GameEntity staticRotatingEnemy = new StaticRotatingEnemy(new Vector2(1000, 500), 1, 1, this);
+            this.gameEntities.Add(staticRotatingEnemy);
+
+
+
 
             // Lastly, add all game entities to the set of children.
             // Note that this makes game entities children, but not all children are game entities!

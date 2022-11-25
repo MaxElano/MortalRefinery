@@ -5,11 +5,12 @@ using System.Text;
 
 namespace IntroductieProject
 {
+    // ChasingEnemy, this enemy will just follow the player.
     internal class ChasingEnemy : Enemy
     {
         internal float angle;
 
-        internal ChasingEnemy(Vector2 center, int width, int height, BaseLevel level, string assetName = "ChasingEnemy") : base(center, width, height, level, assetName)
+        internal ChasingEnemy(Vector2 center, int width, int height, BaseLevel level, string assetName = "Giant_Bat") : base(center, width, height, level, assetName)
         {
 
         }
@@ -33,6 +34,11 @@ namespace IntroductieProject
 
             direction.X = -(float)Math.Cos(angle);
             direction.Y = (float)Math.Sin(angle);
+
+            if (level.player.getBoundingBox().Intersects(getBoundingBox()))
+                stopMoving();
+            else
+                startMoving();
 
         }
     }

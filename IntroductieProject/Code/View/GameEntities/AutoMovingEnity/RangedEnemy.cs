@@ -11,6 +11,7 @@ namespace IntroductieProject
         internal RangedEnemy(Vector2 center, int width, int height, int range, BaseLevel level, string assetName = "ChasingEnemy") : base(center, width, height, level, assetName)
         {
             this.range = range;
+            baseSpeed = 10;
         }
 
         internal override void setdirection()

@@ -5,6 +5,9 @@ using System.Text;
 
 namespace IntroductieProject
 {
+
+    // Basic Enemy class
+    // each enemy will be a subclass fo this class
     internal class Enemy : GameEntity
     {
         internal BaseLevel level;
