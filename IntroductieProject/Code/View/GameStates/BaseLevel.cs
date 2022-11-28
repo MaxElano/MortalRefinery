@@ -42,28 +42,6 @@ namespace IntroductieProject
             lamp.startMoving();
             this.gameEntities.Add(lamp);
 
-            GameEntity chasingEnemy = new ChasingEnemy(new Vector2(700, 900), 100, 100, 5, 120, this);
-            chasingEnemy.startMoving();
-            this.gameEntities.Add(chasingEnemy);
-
-            GameEntity rangedEnemy = new RangedEnemy(new Vector2(500, 600), 100, 100, 400, 5, 120, this);
-            rangedEnemy.startMoving();
-            this.gameEntities.Add(rangedEnemy);
-
-            GameEntity staticEnemy = new StaticRotatingEnemy(new Vector2(300, 200), 1, 1, 10, 0, 0, this);
-            staticEnemy.startMoving();
-            this.gameEntities.Add(staticEnemy);
-
-            GameEntity staticEnemy2 = new StaticRotatingEnemy(new Vector2(1200, 500), 1, 1, 5, 5, 0, this);
-            staticEnemy2.startMoving();
-            this.gameEntities.Add(staticEnemy2);
-
-            GameEntity staticEnemy3 = new StaticRotatingEnemy(new Vector2(1200, 500), 1, 1, 5, 5, 180, this);
-            staticEnemy3.startMoving();
-            this.gameEntities.Add(staticEnemy3);
-
-
-
             // Lastly, add all game entities to the set of children.
             // Note that this makes game entities children, but not all children are game entities!
             foreach (GameEntity entity in this.gameEntities)

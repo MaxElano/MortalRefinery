@@ -11,6 +11,7 @@ namespace IntroductieProject
     {
         internal int range;
         internal List<projectile> projectiles = new List<projectile>();
+        internal int shot = 30;
 
         internal RangedEnemy(Vector2 center, int width, int height, int range, int damage, int health, BaseLevel level, string assetName = "ChasingEnemy", string projectileName = "FireBall (0)") : base(center, width, height, damage, health, level, assetName)
         {
@@ -22,11 +23,13 @@ namespace IntroductieProject
         {
             MouseState mouse = Mouse.GetState();
 
-            if (mouse.RightButton == ButtonState.Pressed)
+            if (mouse.RightButton == ButtonState.Pressed && shot <= 0)
             {
                 projectile p = new projectile(centerPosition, level.player.centerPosition);
                 projectiles.Add(p);
+                shot = 30;
             }
+            shot--; ;
 
             foreach (projectile p in projectiles)
                 p.update(time);
