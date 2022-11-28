@@ -16,7 +16,6 @@ namespace IntroductieProject
         internal RangedEnemy(Vector2 center, int width, int height, int range, int damage, int health, BaseLevel level, string assetName = "ChasingEnemy", string projectileName = "FireBall (0)") : base(center, width, height, damage, health, level, assetName)
         {
             this.range = range;
-            baseSpeed = 10;
         }
 
         internal override void update(GameTime time)

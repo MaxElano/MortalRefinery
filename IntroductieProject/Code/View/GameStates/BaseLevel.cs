@@ -64,7 +64,7 @@ namespace IntroductieProject
             // the if-statement checks if the object is not colliding with itself.
             foreach (GameEntity entity in this.gameEntities.ToArray())
             {
-                if (entity.Health == 0)
+                if (entity.Health < 0)
                 {
                     gameEntities.Remove(entity);
                     this.children.Remove(entity);

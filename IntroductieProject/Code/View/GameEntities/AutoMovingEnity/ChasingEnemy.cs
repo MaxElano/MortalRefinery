@@ -40,8 +40,8 @@ namespace IntroductieProject
             if (level.player.getBoundingBox().Intersects(getBoundingBox()))
             {
                 stopMoving();
-                if (level.player.Damage > Health)
-                    Health -= Health;
+                if (level.player.Damage > Health + 1)
+                    Health = -1;
                 else
                     Health -= level.player.Damage;
             }
