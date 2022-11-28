@@ -16,8 +16,7 @@ namespace IntroductieProject
         public int Damage { get; protected set; }
         public float MoveSpeed { get; protected set; }
         public float MaxHealth { get; protected set; }
-        public bool IsAlive { get; protected set; }
-        
+        public bool IsAlive { get; protected set; }        
 
         /// <summary>
         /// This float represents the Orientation of the object, standard objects are oriented downwards, so they look at you!

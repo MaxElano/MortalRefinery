@@ -59,7 +59,6 @@ namespace IntroductieProject
             InputHelper(gameTime);
 
             InputHelper();
-
         }
 
         protected void Shoot(GameTime gameTime)
