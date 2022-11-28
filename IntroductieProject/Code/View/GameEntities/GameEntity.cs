@@ -12,10 +12,12 @@ namespace IntroductieProject
     /// </summary>
     class GameEntity : GameObject
     {
-        public int Health { get; internal set; }
-        public int Damage { get; internal set; }
-        protected float MovementSpeed { get; private set; } 
-        
+        public int Health { get; protected set; }
+        public int Damage { get; protected set; }
+        public float MoveSpeed { get; protected set; }
+        public float MaxHealth { get; protected set; }
+        public bool IsAlive { get; protected set; }        
+
         /// <summary>
         /// This float represents the Orientation of the object, standard objects are oriented downwards, so they look at you!
         /// </summary>
@@ -39,7 +41,7 @@ namespace IntroductieProject
         /// In this case, this float represents the speed at which it moves.
         /// We made sure that only an entity can acccess its base speed.
         /// </summary>
-        protected float baseSpeed = 3;
+        //protected float baseSpeed = 3;
 
 
         /// <summary>
@@ -85,6 +87,18 @@ namespace IntroductieProject
             }
         }
 
+        protected Vector2 rotateEntity(double angleInDegrees, int distanceFromTarget)
+        {
+            double angleInRadians = angleInDegrees * (Math.PI / 180);
+            double cosTheta = Math.Cos(angleInRadians);
+            double sinTheta = Math.Sin(angleInRadians);
+            return new Vector2
+            {
+                X = (int) (cosTheta * distanceFromTarget),
+                Y = (int) (sinTheta * distanceFromTarget)
+            };
+        }
+
         /// <summary>
         /// This function shows how other classes can safely ask a game entity to perform an action with its private properties.
         /// In this specific case, they can ask the entity to start moving. But the entity itself can decide for itself what that actually means!
@@ -92,7 +106,7 @@ namespace IntroductieProject
         /// </summary>
         internal virtual void startMoving()
         {
-            this.velocity = this.baseSpeed;
+            this.velocity = this.MoveSpeed;
         }
 
         /// <summary>
@@ -115,8 +129,33 @@ namespace IntroductieProject
                 return new Rectangle((int)this.centerPosition.X - height / 2, (int)this.centerPosition.Y - width / 2, height, width);
             else
                 return new Rectangle((int)this.centerPosition.X - width / 2, (int)this.centerPosition.Y - height / 2, width, height);
-            
         }
+
+        /// <summary>
+        /// Damages the player.
+        /// </summary>
+        public virtual void GetHit(int damage)
+        {
+            this.Health -= damage;
+        }
+
+        /// <summary>
+        /// Heals the player.
+        /// </summary>
+        public virtual void Heal(int healing)
+        {
+            this.Health += healing;
+        }
+
+        /// <summary>
+        /// Resets everything after death.
+        /// </summary>
+        protected virtual void Die()
+        {
+            IsAlive = false;
+            stopMoving();
+        }
+
     }
 
     /// <summary>

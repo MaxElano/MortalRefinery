@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace IntroductieProject
 {
@@ -27,7 +28,7 @@ namespace IntroductieProject
         {
             // A player and a bridge, and a lamp added, just to show how the code works.
             // You probably want to remove this code at some points
-            this.player = new Player(new Vector2(200, 700), 30, 100);
+            this.player = new Warrior(new Vector2(200, 700), 30, 100, "player");
             this.gameEntities.Add(player);
 
             // We want to get a lamp, that stands up.
