@@ -11,11 +11,10 @@ namespace IntroductieProject
     {
         public Warrior(Vector2 center, int width, int height, string assetName = "Warrior") : base(center, width, height, assetName)
         {
-            this.Health = 100;
+            this.MaxHealth = 100;
             this.Damage = 10;
             this.MoveSpeed = 5;
-            this.MaxHealth = this.Health;
+            this.FireRate = 10;
         }
-
     }
 }

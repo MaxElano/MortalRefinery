@@ -18,7 +18,11 @@ namespace IntroductieProject
         List<Projectile> projectiles;
         Item item;
         Item item2;
+        public float FireRate { get; protected set; }
         List<Orbital> orbitals;
+
+        float shootCooldown;
+        bool canShoot;
 
         public Player(Vector2 center, int width, int height, string assetName) : base (center, width, height, assetName)
         {
@@ -30,6 +34,8 @@ namespace IntroductieProject
             orbitals.Add(new Orbital(200,new Vector2(center.X + 100, center.Y), 32, 32, 1, 10, "damageUpSprite"));
             orbitals.Add(new Orbital(300, new Vector2(center.X + 100, center.Y), 32, 32, 1, 10, "damageUpSprite"));
             orbitals.Add(new Orbital(100, new Vector2(center.X + 100, center.Y), 32, 32, 1, 10, "damageUpSprite"));
+            shootCooldown = (1 / FireRate) * 1000;
+            canShoot = true;
         }
 
         internal override void update(GameTime gameTime)
@@ -43,14 +49,28 @@ namespace IntroductieProject
             
             foreach (Projectile p in projectiles)
                 p.update(gameTime);
+            
+            shootCooldown -= gameTime.ElapsedGameTime.Milliseconds;
+            if (shootCooldown <= 0)
+            {
+                canShoot = true;
+            }
+
+            InputHelper(gameTime);
 
             InputHelper();
 
         }
 
-        protected void Shoot()
+        protected void Shoot(GameTime gameTime)
         {
-            projectiles.Add(new Projectile(centerPosition, (int)(10 + 0.10 * Damage), (int)(10 + 0.10 * Damage), new Vector2(InputManager.MouseState.Position.X - centerPosition.X, InputManager.MouseState.Position.Y - centerPosition.Y), 10, 5));
+            if (canShoot)
+            {
+                projectiles.Add(new Projectile(centerPosition, 100, 100, new Vector2(InputManager.MouseState.Position.X - centerPosition.X, InputManager.MouseState.Position.Y - centerPosition.Y), 10, 5));
+                ChangeStats(item);
+                shootCooldown = (1 / FireRate) * 1000;
+                canShoot = false;
+            }
         }
 
         internal override void draw(SpriteBatch batch)
@@ -75,11 +95,11 @@ namespace IntroductieProject
 
             Debug.WriteLine(Health + " " + Damage + " " + MoveSpeed + " " + MaxHealth);
         }
-        protected void InputHelper()
+        protected void InputHelper(GameTime gameTime)
         {
             if (InputManager.isKeyDown(Keys.Space))
             {
-                Shoot();
+                Shoot(gameTime);
             }
 
             if (InputManager.isKeyDown(Keys.E))
@@ -148,5 +168,6 @@ namespace IntroductieProject
             if (!InputManager.isKeyDown(Keys.A) && !InputManager.isKeyDown(Keys.W) && !InputManager.isKeyDown(Keys.S) && !InputManager.isKeyDown(Keys.D))
                 stopMoving();
         }
+
     }
 }
