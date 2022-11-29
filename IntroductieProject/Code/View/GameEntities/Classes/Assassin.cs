@@ -12,10 +12,21 @@ namespace IntroductieProject
     {
         public Assassin(Vector2 center, int width, int height, string assetName = "Warrior") : base(center, width, height, assetName)
         {
+            currentClass = characterType.assassin;
+
             this.MaxHealth = 30;
-            this.Damage = 30;
+            this.Health = MaxHealth;
+            this.DamageMultiplier = 2;
             this.MoveSpeed = 15;
             this.FireRate = 20;
+
+            specialAbilityCooldown = 20 * 1000;
+            specialAbilityDuration = 10 * 1000;
+        }
+        public override void SpecialAbility()
+        {
+            DamageMultiplier *= 2;
+            base.SpecialAbility();
         }
     }
 }

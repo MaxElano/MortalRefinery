@@ -21,7 +21,7 @@ namespace IntroductieProject
     {
         internal Character(Vector2 center, int width, int height, string assetName = "Warrior") : base(center, width, height, assetName)
         {
-            this.direction = direction;
+          
         }
 
         private void shoot(string weapon)

@@ -6,53 +6,91 @@ using System.Text;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using System.Security.Authentication;
+using System.Security.Cryptography;
 
 namespace IntroductieProject
 {
     internal class Player : GameEntity
     {
+        protected enum characterType
+        {
+            assassin, healer, warrior
+        }
+        protected characterType currentClass;
+
         List<Item> items;
         List<Projectile> projectiles;
         Item item;
         Item item2;
         public float FireRate { get; protected set; }
 
+        //All variables for the normal ability
+        float normalAbilityCooldownTimer;
+        float normalAbilityCooldown;
+        bool canNormalAbility;
+
+        //All variables for the special ability
+        float specialAbilityCooldownTimer;
+        protected float specialAbilityCooldown;
+        protected float specialAbilityDuration;
+        float specialAbilityTimer;
+        bool canSpecialAbility;
+        bool specialAbilityActive;
+
+        //All variables for the shooting function
+        float shootCooldownTimer;
         float shootCooldown;
         bool canShoot;
 
         public Player(Vector2 center, int width, int height, string assetName) : base (center, width, height, assetName)
         {
             projectiles = new List<Projectile>();
+
             items = new List<Item>();
             item = new damageUp(new Vector2(100,100), 32, 32, "damageUpSprite");
             item2 = new healthUp(new Vector2(200, 100), 32, 32, "damageUpSprite");
+
+            //initializes the shooting rate and function
             shootCooldown = (1 / FireRate) * 1000;
+            shootCooldownTimer = shootCooldown;
             canShoot = true;
+
+            //initializes the normal ability. (The 10 stands for 10 seconds, the 1000 converts from seconds to milliseconds).
+            normalAbilityCooldown = 10 * 1000;
+            normalAbilityCooldownTimer = normalAbilityCooldown;
+            canNormalAbility = true;
+        }
+
+        //Displays all player info on the console
+        public void AllInfo()
+        {
+            Console.WriteLine("Class: " + currentClass + " MaxHealth: " + MaxHealth + " Health: " + Health + " DamageMultiplier: " + DamageMultiplier + " MoveSpeed: " + MoveSpeed + " IsAlive: " + IsAlive + " CanTakeDamage: " + CanTakeDamage);
+            Console.WriteLine("ShootCooldown: " + shootCooldownTimer + " CanShoot: " + canShoot + " NormalAbilityCooldown: " + normalAbilityCooldownTimer + " CanNormalAbility: " + canNormalAbility + " SpecialAbilityCooldown: " + specialAbilityCooldownTimer + " CanSpecialAbility: " + canSpecialAbility + " SpecialAbilityDuration: " + specialAbilityTimer);
         }
 
         internal override void update(GameTime gameTime)
         {
             base.update(gameTime);
-            
+
+            //Update each projectile
             foreach (Projectile p in projectiles)
                 p.update(gameTime);
-            
-            shootCooldown -= gameTime.ElapsedGameTime.Milliseconds;
-            if (shootCooldown <= 0)
-            {
-                canShoot = true;
-            }
 
+            //Update the cooldown timers
+            Cooldowns(gameTime);
+
+            //Update the inputs
             InputHelper(gameTime);
         }
 
-        protected void Shoot(GameTime gameTime)
+        protected void Shoot()
         {
+            AllInfo();
             if (canShoot)
             {
                 projectiles.Add(new Projectile(centerPosition, 100, 100, new Vector2(InputManager.MouseState.Position.X - centerPosition.X, InputManager.MouseState.Position.Y - centerPosition.Y), 10, 5));
                 ChangeStats(item);
-                shootCooldown = (1 / FireRate) * 1000;
+                shootCooldownTimer = shootCooldown;
                 canShoot = false;
             }
         }
@@ -63,22 +101,111 @@ namespace IntroductieProject
             item2.draw(batch);
             base.draw(batch);
 
+            //Draw every projectile
             foreach (Projectile p in projectiles)
                 p.draw(batch);
         }
+
+        //Changes the player's stats when picking up an item
         public void ChangeStats(Item item)
         {
             this.Health += item.Health;
-            this.Damage += item.Damage; 
+            this.DamageMultiplier += item.Damage; 
             this.MoveSpeed += item.MoveSpeed;
             this.MaxHealth += item.MaxHealth;
             //items.Add(item); bij de oncollision
         }
+
+        //Dash function for every character
+        public virtual void NormalAbility()
+        {
+            AllInfo();
+            if (canNormalAbility)
+            {
+                centerPosition += direction * 100;
+                canNormalAbility = false;
+                normalAbilityCooldownTimer = normalAbilityCooldown;
+            }
+        }
+
+        //Virtual special ability for each individual character to be overridden
+        public virtual void SpecialAbility()
+        {
+            specialAbilityActive = true;
+            canSpecialAbility = false;
+            specialAbilityCooldownTimer = specialAbilityCooldown;
+            specialAbilityTimer = specialAbilityDuration;
+            AllInfo();
+        }
+
+        //Updates the cooldown timers and handles the special ability duration
+        private void Cooldowns(GameTime gameTime)
+        {
+            if (!canShoot)
+            {
+                shootCooldownTimer -= gameTime.ElapsedGameTime.Milliseconds;
+                if (shootCooldownTimer <= 0)
+                {
+                    canShoot = true;
+                }
+            }
+
+            if (!canNormalAbility)
+            {
+                normalAbilityCooldownTimer -= gameTime.ElapsedGameTime.Milliseconds;
+                if (normalAbilityCooldownTimer <= 0)
+                {
+                    canNormalAbility = true;
+                }
+            }
+
+            if (specialAbilityActive)
+            {
+                specialAbilityTimer -= gameTime.ElapsedGameTime.Milliseconds;
+                if (specialAbilityTimer <= 0)
+                {
+                    ResetSpecialAbilities();
+                }
+            }
+
+            if (!specialAbilityActive && !canSpecialAbility)
+            {
+                specialAbilityCooldownTimer -= gameTime.ElapsedGameTime.Milliseconds;
+                if (specialAbilityCooldownTimer <= 0)
+                    canSpecialAbility = true;
+            }
+        }
+
+        //Resets the special abilities
+        protected void ResetSpecialAbilities()
+        {
+            if (specialAbilityActive)
+            {
+                specialAbilityTimer = 0;
+                specialAbilityCooldownTimer = specialAbilityCooldown;
+
+                switch (currentClass)
+                {
+                    case characterType.assassin:
+                        DamageMultiplier /= 2;
+                        break;
+                    case characterType.healer:
+                        break;
+                    case characterType.warrior:
+                        CanTakeDamage = true;
+                        break;
+                }
+                specialAbilityActive = false;
+                AllInfo();
+            }
+        }
+
+        //Helps with the inputs
         protected void InputHelper(GameTime gameTime)
         {
             if (InputManager.isKeyDown(Keys.Space))
             {
-                Shoot(gameTime);
+                Shoot();
             }
             if (InputManager.isKeyDown(Keys.A))
             {
@@ -130,6 +257,10 @@ namespace IntroductieProject
             }
             if (!InputManager.isKeyDown(Keys.A) && !InputManager.isKeyDown(Keys.W) && !InputManager.isKeyDown(Keys.S) && !InputManager.isKeyDown(Keys.D))
                 stopMoving();
+            if (InputManager.isKeyDown(Keys.E))
+                NormalAbility();
+            if (InputManager.isKeyDown(Keys.Q))
+                SpecialAbility();
         }
 
     }
