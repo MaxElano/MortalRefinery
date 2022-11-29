@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace IntroductieProject
 {
@@ -61,9 +62,16 @@ namespace IntroductieProject
             // That is VERY slow :P
             // The update function is called many times per second. Eventually you need a more efficient solution that the one presented here.
             // the if-statement checks if the object is not colliding with itself.
-            foreach (GameEntity entity in this.gameEntities)
+            foreach (GameEntity entity in this.gameEntities.ToArray())
+            {
+                if (entity.Health < 0)
+                {
+                    gameEntities.Remove(entity);
+                    this.children.Remove(entity);
+                }
                 foreach (GameEntity other in this.gameEntities)
                     entity.fireCollisionEvent(other);
+            }
 
             base.update(time);
         }

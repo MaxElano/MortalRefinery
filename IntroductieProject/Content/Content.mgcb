@@ -49,6 +49,7 @@
 /processorParam:TextureFormat=Color
 /build:bridge.png
 
+#begin FireBall (2).png
 #begin damageUpSprite.webp
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -59,6 +60,20 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
+/build:FireBall (2).png
+
+#begin Giant_Bat.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Giant_Bat.png
+
 /build:damageUpSprite.webp
 
 #begin lampDownLooking.png
@@ -132,6 +147,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:playbutton.png
+
+#begin Projectiles/Bullet1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Projectiles/Bullet1.png
 
 #begin steampunk.png
 /importer:TextureImporter

@@ -6,6 +6,9 @@ using System.Text;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Graphics;
 using System.Security.Authentication;
+using IntroductieProject.Code.View.GameEntities;
+using System.Web;
+using System.Diagnostics;
 using System.Security.Cryptography;
 
 namespace IntroductieProject
@@ -23,6 +26,7 @@ namespace IntroductieProject
         Item item;
         Item item2;
         public float FireRate { get; protected set; }
+        List<Orbital> orbitals;
 
         //All variables for the normal ability
         float normalAbilityCooldownTimer;
@@ -47,8 +51,12 @@ namespace IntroductieProject
             projectiles = new List<Projectile>();
 
             items = new List<Item>();
+            orbitals = new List<Orbital>();
             item = new damageUp(new Vector2(100,100), 32, 32, "damageUpSprite");
             item2 = new healthUp(new Vector2(200, 100), 32, 32, "damageUpSprite");
+            orbitals.Add(new Orbital(200,new Vector2(center.X + 100, center.Y), 32, 32, 1, 10, "damageUpSprite"));
+            orbitals.Add(new Orbital(300, new Vector2(center.X + 100, center.Y), 32, 32, 1, 10, "damageUpSprite"));
+            orbitals.Add(new Orbital(100, new Vector2(center.X + 100, center.Y), 32, 32, 1, 10, "damageUpSprite"));
 
             //initializes the shooting rate and function
             shootCooldown = (1 / FireRate) * 1000;
@@ -70,6 +78,11 @@ namespace IntroductieProject
 
         internal override void update(GameTime gameTime)
         {
+            foreach (Orbital orbital in orbitals)
+            {
+                orbital.update(gameTime);
+                orbital.updatePosition(centerPosition);
+            }
             base.update(gameTime);
 
             //Update each projectile
@@ -99,6 +112,9 @@ namespace IntroductieProject
         {
             item.draw(batch);
             item2.draw(batch);
+            foreach(Orbital huts in orbitals)
+                huts.draw(batch);
+            
             base.draw(batch);
 
             //Draw every projectile
@@ -114,6 +130,8 @@ namespace IntroductieProject
             this.MoveSpeed += item.MoveSpeed;
             this.MaxHealth += item.MaxHealth;
             //items.Add(item); bij de oncollision
+
+            Debug.WriteLine(Health + " " + Damage + " " + MoveSpeed + " " + MaxHealth);
         }
 
         //Dash function for every character
@@ -207,6 +225,22 @@ namespace IntroductieProject
             {
                 Shoot();
             }
+
+            if (InputManager.isKeyDown(Keys.E))
+            {
+                orbitals.Add(new Orbital(200, new Vector2(centerPosition.X + 100, centerPosition.Y), 32, 32, 1, 10, "damageUpSprite"));
+            }
+
+            if (InputManager.isKeyDown(Keys.R))
+            {
+                ChangeStats(item);
+            }
+
+            if (InputManager.isKeyDown(Keys.T))
+            {
+                ChangeStats(item2);
+            }
+
             if (InputManager.isKeyDown(Keys.A))
             {
                 direction = new Vector2(-1, 0);
