@@ -28,5 +28,10 @@ namespace IntroductieProject
             Heal(MaxHealth * 0.25f);
             base.SpecialAbility();
         }
+
+        protected override void ResetSpecialAbility()
+        {
+            base.ResetSpecialAbility();
+        }
     }
 }

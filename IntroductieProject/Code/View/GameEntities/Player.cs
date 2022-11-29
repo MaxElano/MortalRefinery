@@ -99,13 +99,11 @@ namespace IntroductieProject
         protected void Shoot()
         {
             AllInfo();
-            if (canShoot)
-            {
-                projectiles.Add(new Projectile(centerPosition, 100, 100, new Vector2(InputManager.MouseState.Position.X - centerPosition.X, InputManager.MouseState.Position.Y - centerPosition.Y), 10, 5));
-                ChangeStats(item);
-                shootCooldownTimer = shootCooldown;
-                canShoot = false;
-            }
+            projectiles.Add(new Projectile(centerPosition, 100, 100, new Vector2(InputManager.MouseState.Position.X - centerPosition.X, InputManager.MouseState.Position.Y - centerPosition.Y), 10, 5));
+            ChangeStats(item);
+            shootCooldown = (1 / FireRate) * 1000;
+            shootCooldownTimer = shootCooldown;
+            canShoot = false;
         }
 
         internal override void draw(SpriteBatch batch)
@@ -138,12 +136,9 @@ namespace IntroductieProject
         public virtual void NormalAbility()
         {
             AllInfo();
-            if (canNormalAbility)
-            {
-                centerPosition += direction * 100;
-                canNormalAbility = false;
-                normalAbilityCooldownTimer = normalAbilityCooldown;
-            }
+            centerPosition += direction * 100;
+            canNormalAbility = false;
+            normalAbilityCooldownTimer = normalAbilityCooldown;
         }
 
         //Virtual special ability for each individual character to be overridden
@@ -182,7 +177,7 @@ namespace IntroductieProject
                 specialAbilityTimer -= gameTime.ElapsedGameTime.Milliseconds;
                 if (specialAbilityTimer <= 0)
                 {
-                    ResetSpecialAbilities();
+                    ResetSpecialAbility();
                 }
             }
 
@@ -195,36 +190,21 @@ namespace IntroductieProject
         }
 
         //Resets the special abilities
-        protected void ResetSpecialAbilities()
+        protected virtual void ResetSpecialAbility()
         {
-            if (specialAbilityActive)
-            {
-                specialAbilityTimer = 0;
-                specialAbilityCooldownTimer = specialAbilityCooldown;
-
-                switch (currentClass)
-                {
-                    case characterType.assassin:
-                        DamageMultiplier /= 2;
-                        break;
-                    case characterType.healer:
-                        break;
-                    case characterType.warrior:
-                        CanTakeDamage = true;
-                        break;
-                }
-                specialAbilityActive = false;
-                AllInfo();
-            }
+            specialAbilityTimer = 0;
+            specialAbilityCooldownTimer = specialAbilityCooldown;
+            specialAbilityActive = false;
+            AllInfo();
         }
 
         //Helps with the inputs
         protected void InputHelper(GameTime gameTime)
         {
             if (InputManager.isKeyDown(Keys.Space))
-            {
-                Shoot();
-            }
+                if(canShoot)
+                    Shoot();
+
 
             if (InputManager.isKeyDown(Keys.R))
             {
@@ -292,9 +272,11 @@ namespace IntroductieProject
             if (!InputManager.isKeyDown(Keys.A) && !InputManager.isKeyDown(Keys.W) && !InputManager.isKeyDown(Keys.S) && !InputManager.isKeyDown(Keys.D))
                 stopMoving();
             if (InputManager.isKeyDown(Keys.E))
-                NormalAbility();
+                if(canNormalAbility)
+                    NormalAbility();
             if (InputManager.isKeyDown(Keys.Q))
-                SpecialAbility();
+                if(canSpecialAbility)
+                    SpecialAbility();
         }
 
     }

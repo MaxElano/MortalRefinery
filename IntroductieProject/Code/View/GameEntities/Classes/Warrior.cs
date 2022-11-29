@@ -28,5 +28,11 @@ namespace IntroductieProject
             CanTakeDamage = false;
             base.SpecialAbility();
         }
+
+        protected override void ResetSpecialAbility()
+        {
+            CanTakeDamage = true;
+            base.ResetSpecialAbility();
+        }
     }
 }

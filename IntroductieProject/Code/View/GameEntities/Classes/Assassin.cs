@@ -28,5 +28,10 @@ namespace IntroductieProject
             DamageMultiplier *= 2;
             base.SpecialAbility();
         }
+        protected override void ResetSpecialAbility()
+        {
+            DamageMultiplier /= 2;
+            base.ResetSpecialAbility();
+        }
     }
 }
