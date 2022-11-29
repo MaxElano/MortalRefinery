@@ -14,7 +14,7 @@ namespace IntroductieProject.Code.View.GameEntities
 
         public Orbital(int distanceFromTarget, Vector2 center, int width, int height, int moveSpeed, int damage, string assetName = "damageUpSprite") : base(center, width, height, assetName)
         {
-            this.Damage = damage;
+            this.DamageMultiplier = damage;
             this.MoveSpeed = moveSpeed;
             orbitalDistanceFromTarget = distanceFromTarget;
             orbitalSpeed = moveSpeed;
