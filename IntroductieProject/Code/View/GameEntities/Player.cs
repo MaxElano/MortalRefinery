@@ -131,7 +131,7 @@ namespace IntroductieProject
             this.MaxHealth += item.MaxHealth;
             //items.Add(item); bij de oncollision
 
-            Debug.WriteLine(Health + " " + Damage + " " + MoveSpeed + " " + MaxHealth);
+            Debug.WriteLine(Health + " " + DamageMultiplier + " " + MoveSpeed + " " + MaxHealth);
         }
 
         //Dash function for every character
@@ -226,17 +226,17 @@ namespace IntroductieProject
                 Shoot();
             }
 
-            if (InputManager.isKeyDown(Keys.E))
+            if (InputManager.isKeyDown(Keys.R))
             {
                 orbitals.Add(new Orbital(200, new Vector2(centerPosition.X + 100, centerPosition.Y), 32, 32, 1, 10, "damageUpSprite"));
             }
 
-            if (InputManager.isKeyDown(Keys.R))
+            if (InputManager.isKeyDown(Keys.F))
             {
                 ChangeStats(item);
             }
 
-            if (InputManager.isKeyDown(Keys.T))
+            if (InputManager.isKeyDown(Keys.G))
             {
                 ChangeStats(item2);
             }
