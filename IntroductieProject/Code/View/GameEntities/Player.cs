@@ -9,16 +9,41 @@ using System.Security.Authentication;
 using IntroductieProject.Code.View.GameEntities;
 using System.Web;
 using System.Diagnostics;
+using System.Security.Cryptography;
 
 namespace IntroductieProject
 {
     internal class Player : GameEntity
     {
+        protected enum characterType
+        {
+            assassin, healer, warrior
+        }
+        protected characterType currentClass;
+
         List<Item> items;
         Item item;
         Item item2;
         List<Orbital> orbitals;
         Weapon weapon;
+
+        //All variables for the normal ability
+        float normalAbilityCooldownTimer;
+        float normalAbilityCooldown;
+        bool canNormalAbility;
+
+        //All variables for the special ability
+        float specialAbilityCooldownTimer;
+        protected float specialAbilityCooldown;
+        protected float specialAbilityDuration;
+        float specialAbilityTimer;
+        bool canSpecialAbility;
+        bool specialAbilityActive;
+
+        //All variables for the shooting function
+        float shootCooldownTimer;
+        float shootCooldown;
+        bool canShoot;
 
         public Player(Vector2 center, int width, int height, string assetName) : base (center, width, height, assetName)
         {
@@ -30,6 +55,20 @@ namespace IntroductieProject
             orbitals.Add(new Orbital(200,new Vector2(center.X + 100, center.Y), 32, 32, 1, 10, "damageUpSprite"));
             orbitals.Add(new Orbital(300, new Vector2(center.X + 100, center.Y), 32, 32, 1, 10, "damageUpSprite"));
             orbitals.Add(new Orbital(100, new Vector2(center.X + 100, center.Y), 32, 32, 1, 10, "damageUpSprite"));
+            shootCooldown = (1 / FireRate) * 1000;
+            canShoot = true;
+
+            //initializes the normal ability. (The 10 stands for 10 seconds, the 1000 converts from seconds to milliseconds).
+            normalAbilityCooldown = 10 * 1000;
+            normalAbilityCooldownTimer = normalAbilityCooldown;
+            canNormalAbility = true;
+        }
+
+        //Displays all player info on the console
+        public void AllInfo()
+        {
+            Console.WriteLine("Class: " + currentClass + " MaxHealth: " + MaxHealth + " Health: " + Health + " DamageMultiplier: " + DamageMultiplier + " MoveSpeed: " + MoveSpeed + " IsAlive: " + IsAlive + " CanTakeDamage: " + CanTakeDamage);
+            Console.WriteLine("ShootCooldown: " + shootCooldownTimer + " CanShoot: " + canShoot + " NormalAbilityCooldown: " + normalAbilityCooldownTimer + " CanNormalAbility: " + canNormalAbility + " SpecialAbilityCooldown: " + specialAbilityCooldownTimer + " CanSpecialAbility: " + canSpecialAbility + " SpecialAbilityDuration: " + specialAbilityTimer);
         }
 
         internal override void update(GameTime gameTime)
@@ -43,7 +82,17 @@ namespace IntroductieProject
             weapon.update(gameTime);
             weapon.updatePosition(centerPosition);
 
+            base.update(gameTime);
 
+            //Update each projectile
+            foreach (Projectile p in projectiles)
+                p.update(gameTime);
+
+            //Update the cooldown timers
+            Cooldowns(gameTime);
+
+            //Update the inputs
+            InputHelper(gameTime);
 
             base.update(gameTime);
 
@@ -60,17 +109,90 @@ namespace IntroductieProject
             weapon.draw(batch);
 
             base.draw(batch);
+
+            foreach (Projectile p in projectiles)
+                p.draw(batch);
         }
+
+        //Changes the player's stats when picking up an item
         public void ChangeStats(Item item)
         {
             this.Health += item.Health;
-            this.Damage += item.Damage; 
+            this.DamageMultiplier += item.Damage; 
             this.MoveSpeed += item.MoveSpeed;
             this.MaxHealth += item.MaxHealth;
             //items.Add(item); bij de oncollision
 
-            Debug.WriteLine(Health + " " + Damage + " " + MoveSpeed + " " + MaxHealth);
+            Debug.WriteLine(Health + " " + DamageMultiplier + " " + MoveSpeed + " " + MaxHealth);
         }
+
+        //Dash function for every character
+        public virtual void NormalAbility()
+        {
+            AllInfo();
+            centerPosition += direction * 100;
+            canNormalAbility = false;
+            normalAbilityCooldownTimer = normalAbilityCooldown;
+        }
+
+        //Virtual special ability for each individual character to be overridden
+        public virtual void SpecialAbility()
+        {
+            specialAbilityActive = true;
+            canSpecialAbility = false;
+            specialAbilityCooldownTimer = specialAbilityCooldown;
+            specialAbilityTimer = specialAbilityDuration;
+            AllInfo();
+        }
+
+        //Updates the cooldown timers and handles the special ability duration
+        private void Cooldowns(GameTime gameTime)
+        {
+            if (!canShoot)
+            {
+                shootCooldownTimer -= gameTime.ElapsedGameTime.Milliseconds;
+                if (shootCooldownTimer <= 0)
+                {
+                    canShoot = true;
+                }
+            }
+
+            if (!canNormalAbility)
+            {
+                normalAbilityCooldownTimer -= gameTime.ElapsedGameTime.Milliseconds;
+                if (normalAbilityCooldownTimer <= 0)
+                {
+                    canNormalAbility = true;
+                }
+            }
+
+            if (specialAbilityActive)
+            {
+                specialAbilityTimer -= gameTime.ElapsedGameTime.Milliseconds;
+                if (specialAbilityTimer <= 0)
+                {
+                    ResetSpecialAbility();
+                }
+            }
+
+            if (!specialAbilityActive && !canSpecialAbility)
+            {
+                specialAbilityCooldownTimer -= gameTime.ElapsedGameTime.Milliseconds;
+                if (specialAbilityCooldownTimer <= 0)
+                    canSpecialAbility = true;
+            }
+        }
+
+        //Resets the special abilities
+        protected virtual void ResetSpecialAbility()
+        {
+            specialAbilityTimer = 0;
+            specialAbilityCooldownTimer = specialAbilityCooldown;
+            specialAbilityActive = false;
+            AllInfo();
+        }
+
+        //Helps with the inputs
         protected void InputHelper(GameTime gameTime)
         {
             if (InputManager.isKeyDown(Keys.Space))
@@ -78,17 +200,17 @@ namespace IntroductieProject
                 weapon.Shoot(gameTime);
             }
 
-            if (InputManager.isKeyDown(Keys.E))
+            if (InputManager.isKeyDown(Keys.R))
             {
                 orbitals.Add(new Orbital(200, new Vector2(centerPosition.X + 100, centerPosition.Y), 32, 32, 1, 10, "damageUpSprite"));
             }
 
-            if (InputManager.isKeyDown(Keys.R))
+            if (InputManager.isKeyDown(Keys.F))
             {
                 ChangeStats(item);
             }
 
-            if (InputManager.isKeyDown(Keys.T))
+            if (InputManager.isKeyDown(Keys.G))
             {
                 ChangeStats(item2);
             }
@@ -143,6 +265,12 @@ namespace IntroductieProject
             }
             if (!InputManager.isKeyDown(Keys.A) && !InputManager.isKeyDown(Keys.W) && !InputManager.isKeyDown(Keys.S) && !InputManager.isKeyDown(Keys.D))
                 stopMoving();
+            if (InputManager.isKeyDown(Keys.E))
+                if(canNormalAbility)
+                    NormalAbility();
+            if (InputManager.isKeyDown(Keys.Q))
+                if(canSpecialAbility)
+                    SpecialAbility();
         }
 
     }

@@ -13,11 +13,12 @@ namespace IntroductieProject
     /// </summary>
     class GameEntity : GameObject
     {
-        public int Health { get; protected set; }
-        public int Damage { get; protected set; }
-        public float MoveSpeed { get; protected set; }
         public float MaxHealth { get; protected set; }
+        public float Health { get; protected set; }
+        public float DamageMultiplier { get; protected set; }
+        public float MoveSpeed { get; protected set; }
         public bool IsAlive { get; protected set; }
+        public bool CanTakeDamage { get; protected set;}
         
 
         /// <summary>
@@ -54,6 +55,7 @@ namespace IntroductieProject
 
         internal GameEntity(Vector2 center, int width, int height, string assetName = "bridge") : base(center, width, height, assetName)
         {
+            CanTakeDamage = true;
         }
 
 
@@ -138,13 +140,16 @@ namespace IntroductieProject
         /// </summary>
         public virtual void GetHit(int damage)
         {
-            this.Health -= damage;
+            if (CanTakeDamage)
+            {
+                this.Health -= damage;
+            }
         }
 
         /// <summary>
         /// Heals the player.
         /// </summary>
-        public virtual void Heal(int healing)
+        public virtual void Heal(float healing)
         {
             this.Health += healing;
         }

@@ -16,7 +16,7 @@ namespace IntroductieProject
 
         public Projectile(Vector2 center, int width, int height, Vector2 direction, float moveSpeed, int damage, string assetName, float range) : base (center, width, height, "Projectiles/" + assetName)
         {
-            this.Damage = damage;
+            this.DamageMultiplier = damage;
             this.MoveSpeed = moveSpeed;
             this.startMoving();
             IsAlive = true;
