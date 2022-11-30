@@ -29,7 +29,10 @@ namespace IntroductieProject
         internal override void update(GameTime gameTime)
         {
             if (Vector2.Distance(startPosition, centerPosition) > gunRange)
+            {
+                Health = 0;
                 Die(this);
+            }
             base.update(gameTime);
         }
 

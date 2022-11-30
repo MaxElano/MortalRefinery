@@ -13,10 +13,10 @@ namespace IntroductieProject
         {
             currentClass = characterType.warrior;
 
-            this.MaxHealth = 100;
+            this.MaxHealth = 125;
             this.Health = MaxHealth;
             this.DamageMultiplier = 1.5f;
-            this.MoveSpeed = 5;
+            this.MoveSpeed = 2;
             this.FireRate = 10;
 
             specialAbilityCooldown = 30 * 1000;

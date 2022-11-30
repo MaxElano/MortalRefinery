@@ -16,7 +16,7 @@ namespace IntroductieProject
             this.MaxHealth = 100;
             this.Health = MaxHealth;
             this.DamageMultiplier = 1;
-            this.MoveSpeed = 5;
+            this.MoveSpeed = 3;
             this.FireRate = 10;
 
             specialAbilityCooldown = 30 * 1000;

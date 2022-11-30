@@ -26,7 +26,7 @@ namespace IntroductieProject
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-
+            
 
 
             GameInstance = this;
@@ -115,6 +115,21 @@ namespace IntroductieProject
             }
 
             return sprite;
+        }
+
+        internal SpriteFont getFont(string assetName)
+        {
+            SpriteFont font;
+            try
+            {
+                font = this.Content.Load<SpriteFont>(assetName);
+            }
+            catch (ContentLoadException)
+            {
+                font = this.Content.Load<SpriteFont>("SpelFont");
+            }
+
+            return font;
         }
     }
 }

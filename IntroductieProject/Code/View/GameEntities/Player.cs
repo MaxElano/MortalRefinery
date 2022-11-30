@@ -10,6 +10,8 @@ using IntroductieProject.Code.View.GameEntities;
 using System.Web;
 using System.Diagnostics;
 using System.Security.Cryptography;
+using IntroductieProject.Code.View.GameEntities.Weapons;
+using System.Reflection.Metadata;
 
 namespace IntroductieProject
 {
@@ -25,7 +27,16 @@ namespace IntroductieProject
         Item item;
         Item item2;
         List<Orbital> orbitals;
-        Weapon weapon;
+
+        //All variables for weapons
+        Weapon weapon1;
+        Weapon weapon2;
+        Weapon[] weaponList = new Weapon[2];
+        Weapon currentWeapon;
+        float weaponSwapCooldown;
+        bool canSwapWeapon;
+
+        SpriteFont font;
 
         //All variables for the normal ability
         float normalAbilityCooldownTimer;
@@ -40,40 +51,77 @@ namespace IntroductieProject
         bool canSpecialAbility;
         bool specialAbilityActive;
 
+        //Projectile list and variables
+        public List<Projectile> projectiles;
+
+        public float SpecialAbilityCooldownTimer { get { return specialAbilityCooldownTimer; } protected set { specialAbilityCooldownTimer = value; } }
+        public float NormalAbilityCooldownTimer { get { return normalAbilityCooldownTimer; } protected set { normalAbilityCooldownTimer = value; } }
+
         public Player(Vector2 center, int width, int height, string assetName) : base (center, width, height, assetName)
         {
-            weapon = new Minigun(centerPosition, 20,20,"damageUpSprite");
+
+            weapon2 = new Shotgun(centerPosition, 20,20,"damageUpSprite", "damageUpSprite");
+            weapon1 = new LaserGun(centerPosition, 20, 20, "damageUpSprite", "laser");
+            weaponList[0] = weapon1;
+            weaponList[1] = weapon2;
+            currentWeapon = weaponList[0];
+
+            font = Game.GameInstance.getFont("SpelFont");
+
+
             items = new List<Item>();
             orbitals = new List<Orbital>();
+
             item = new damageUp(new Vector2(100,100), 32, 32, "damageUpSprite");
             item2 = new healthUp(new Vector2(200, 100), 32, 32, "damageUpSprite");
+
             orbitals.Add(new Orbital(200,new Vector2(center.X + 100, center.Y), 32, 32, 1, 10, "damageUpSprite"));
             orbitals.Add(new Orbital(300, new Vector2(center.X + 100, center.Y), 32, 32, 1, 10, "damageUpSprite"));
             orbitals.Add(new Orbital(100, new Vector2(center.X + 100, center.Y), 32, 32, 1, 10, "damageUpSprite"));
 
+            projectiles = new List<Projectile>();
+
             //initializes the normal ability. (The 10 stands for 10 seconds, the 1000 converts from seconds to milliseconds).
             normalAbilityCooldown = 10 * 1000;
-            normalAbilityCooldownTimer = normalAbilityCooldown;
+            //normalAbilityCooldownTimer = normalAbilityCooldown;
             canNormalAbility = true;
+
+            weaponSwapCooldown = 100;
+
+            canSpecialAbility = true;
         }
 
         //Displays all player info on the console
         public void AllInfo()
         {
+            
             Console.WriteLine("Class: " + currentClass + " MaxHealth: " + MaxHealth + " Health: " + Health + " DamageMultiplier: " + DamageMultiplier + " MoveSpeed: " + MoveSpeed + " IsAlive: " + IsAlive + " CanTakeDamage: " + CanTakeDamage);
             Console.WriteLine(" NormalAbilityCooldown: " + normalAbilityCooldownTimer + " CanNormalAbility: " + canNormalAbility + " SpecialAbilityCooldown: " + specialAbilityCooldownTimer + " CanSpecialAbility: " + canSpecialAbility + " SpecialAbilityDuration: " + specialAbilityTimer);
+        }
+        public void AllInfo(SpriteBatch spritebatch)
+        {
+            spritebatch.DrawString(font, "Class: " + currentClass + " MaxHealth: " + MaxHealth + " Health: " + Health + " DamageMultiplier: " + DamageMultiplier + " MoveSpeed: " + MoveSpeed + " IsAlive: " + IsAlive + " CanTakeDamage: " + CanTakeDamage, new Vector2(10,10), Color.Red);
+            spritebatch.DrawString(font, " NormalAbilityCooldown: " + normalAbilityCooldownTimer + " CanNormalAbility: " + canNormalAbility + " SpecialAbilityCooldown: " + specialAbilityCooldownTimer + " CanSpecialAbility: " + canSpecialAbility + " SpecialAbilityDuration: " + specialAbilityTimer, new Vector2(10, 40), Color.Red);
         }
 
         internal override void update(GameTime gameTime)
         {
+
             foreach (Orbital orbital in orbitals)
             {
                 orbital.update(gameTime);
                 orbital.updatePosition(centerPosition);
             }
 
-            weapon.update(gameTime);
-            weapon.updatePosition(centerPosition);
+            foreach (Projectile p in projectiles.ToArray())
+            {
+                if(p.Health <= 0)
+                   projectiles.Remove(p);
+            }
+
+            weaponList[0].updatePosition(centerPosition);
+            weaponList[1].updatePosition(centerPosition);
+            currentWeapon.update(gameTime);
 
             base.update(gameTime);
 
@@ -82,6 +130,9 @@ namespace IntroductieProject
 
             //Update the inputs
             InputHelper(gameTime);
+
+            foreach (Projectile p in projectiles)
+                p.update(gameTime);
 
             base.update(gameTime);
 
@@ -95,7 +146,12 @@ namespace IntroductieProject
             foreach(Orbital orbital in orbitals)
                 orbital.draw(batch);
 
-            weapon.draw(batch);
+            currentWeapon.draw(batch);
+
+            foreach (Projectile p in projectiles)
+                p.draw(batch);
+
+            AllInfo(batch);
 
             base.draw(batch);
         }
@@ -110,6 +166,17 @@ namespace IntroductieProject
             //items.Add(item); bij de oncollision
 
             Debug.WriteLine(Health + " " + DamageMultiplier + " " + MoveSpeed + " " + MaxHealth);
+        }
+
+        //Swaps the characters weapons
+        void SwapWeapon()
+        {
+            canSwapWeapon = false;
+            Weapon tempWeapon;
+            tempWeapon = weaponList[0];
+            weaponList[0] = weaponList[1];
+            weaponList[1] = tempWeapon;
+            currentWeapon = weaponList[0];
         }
 
         //Dash function for every character
@@ -159,6 +226,15 @@ namespace IntroductieProject
                 if (specialAbilityCooldownTimer <= 0)
                     canSpecialAbility = true;
             }
+
+            if (!canSwapWeapon)
+            {
+                weaponSwapCooldown -= gameTime.ElapsedGameTime.Milliseconds;
+                if (weaponSwapCooldown <= 0)
+                {
+                    canSwapWeapon = true;
+                }
+            }
         }
 
         //Resets the special abilities
@@ -175,22 +251,12 @@ namespace IntroductieProject
         {
             if (InputManager.isKeyDown(Keys.Space))
             {
-                weapon.Shoot(gameTime);
+                currentWeapon.Shoot(gameTime, projectiles);
             }
 
             if (InputManager.isKeyDown(Keys.R))
             {
                 orbitals.Add(new Orbital(200, new Vector2(centerPosition.X + 100, centerPosition.Y), 32, 32, 1, 10, "damageUpSprite"));
-            }
-
-            if (InputManager.isKeyDown(Keys.F))
-            {
-                ChangeStats(item);
-            }
-
-            if (InputManager.isKeyDown(Keys.G))
-            {
-                ChangeStats(item2);
             }
 
             if (InputManager.isKeyDown(Keys.A))
@@ -250,9 +316,16 @@ namespace IntroductieProject
             if (InputManager.isKeyDown(Keys.E))
                 if(canNormalAbility)
                     NormalAbility();
-            if (InputManager.isKeyDown(Keys.Q))
+            if (InputManager.isKeyDown(Keys.F))
                 if(canSpecialAbility)
                     SpecialAbility();
+
+            if (InputManager.isKeyJustPressed(Keys.Q))
+            {
+                if(canSwapWeapon)
+                    SwapWeapon();
+            }
+
         }
 
     }
