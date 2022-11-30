@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -20,6 +21,11 @@ namespace IntroductieProject
             base.update(time);
 
             setdirection();
+
+            if (centerPosition.X > level.player.centerPosition.X)
+                spriteEffect = SpriteEffects.FlipHorizontally;
+            else
+                spriteEffect = SpriteEffects.None;
         }
 
 

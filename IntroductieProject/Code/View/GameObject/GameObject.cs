@@ -43,6 +43,16 @@ namespace IntroductieProject
         protected Texture2D sprite;
 
         /// <summary>
+        /// Every GameObject is required to have a spriteEffect. this is none by default.
+        /// </summary>
+        protected SpriteEffects spriteEffect = SpriteEffects.None;
+
+        /// <summary>
+        /// Every GameObject is required to have a Rotation: this is in Degrees and 0 by default.
+        /// </summary>
+        protected float RotationInDegress = 0f;
+
+        /// <summary>
         /// Every GameObject has a unique ID, that is handed down from the game.
         /// This is later used to handle events with this object: such as dragging this object around.
         /// Do not change this ID yourself: the constructor will set it correctly.
@@ -214,7 +224,7 @@ namespace IntroductieProject
         /// </summary>
         internal virtual void drawOwnSprite(SpriteBatch batch)
         {
-            batch.Draw(this.sprite, this.getBoundingBox(), Color.White);
+            batch.Draw(sprite, getBoundingBox(), null, Color.White, MathHelper.ToRadians(RotationInDegress), Vector2.Zero, spriteEffect, 0f);
         }
 
 
