@@ -7,31 +7,30 @@ using System.Text;
 
 namespace IntroductieProject
 {
-    internal class Warrior : Player
+    internal class Healer : Player
     {
-        public Warrior(Vector2 center, int width, int height, string assetName = "Warrior") : base(center, width, height, assetName)
+        public Healer(Vector2 center, int width, int height, string assetName = "Healer") : base(center, width, height, "Characters/" + assetName)
         {
-            currentClass = characterType.warrior;
+            currentClass = characterType.healer;
 
             this.MaxHealth = 100;
             this.Health = MaxHealth;
-            this.DamageMultiplier = 1.5f;
+            this.DamageMultiplier = 1;
             this.MoveSpeed = 5;
             this.FireRate = 10;
 
             specialAbilityCooldown = 30 * 1000;
-            specialAbilityDuration = 5 * 1000;
+            specialAbilityDuration = 1 * 1000;
         }
 
         public override void SpecialAbility()
         {
-            CanTakeDamage = false;
+            Heal(MaxHealth * 0.25f);
             base.SpecialAbility();
         }
 
         protected override void ResetSpecialAbility()
         {
-            CanTakeDamage = true;
             base.ResetSpecialAbility();
         }
     }

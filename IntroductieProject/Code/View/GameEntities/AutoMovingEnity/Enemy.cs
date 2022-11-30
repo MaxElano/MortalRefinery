@@ -15,7 +15,7 @@ namespace IntroductieProject
         internal Enemy(Vector2 center, int width, int height, int damage, int health, BaseLevel level, string assetName = "Enemy") : base(center, width, height, assetName)
         {
             this.level = level;
-            this.Damage = damage;
+            this.DamageMultiplier = damage;
             this.Health = health;
         }
     }
