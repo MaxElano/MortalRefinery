@@ -23,9 +23,9 @@ namespace IntroductieProject
             setdirection();
 
             if (centerPosition.X > level.player.centerPosition.X)
-                spriteEffect = SpriteEffects.FlipHorizontally;
+                orientation = EntityOrientation.Left;
             else
-                spriteEffect = SpriteEffects.None;
+                orientation= EntityOrientation.Right;
         }
 
 
