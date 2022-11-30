@@ -26,6 +26,7 @@ namespace IntroductieProject
         /// </summary>
         internal List<GameObject> children = new List<GameObject>();
 
+        public bool visible;
         /// <summary>
         /// This point represents the center of this object. Normally, this is the center of the (rectangular) bounding box of the object.
         /// </summary>
@@ -70,7 +71,7 @@ namespace IntroductieProject
         /// <param name="height"> An integer that specifies the height of the object </param>
         /// <param name="assetName"> The name of the sprite asset that this GameObject will use. </param>
         /// <param name="draggable"> A boolean that specifies if this Game Object can be dragged. </param>
-        internal GameObject(Vector2 center, int width, int height, string assetName, bool draggable = false)
+        internal GameObject(Vector2 center, int width, int height, string assetName, bool draggable = false, bool visible = true)
         {
             // GameObjects are responsible for their own data, not the data stored in the entire game.
             // This is why the GameObject asks the current Game Instance if it could please get a sprite.
@@ -80,6 +81,7 @@ namespace IntroductieProject
             this.height = height;
             this.ID = Game.GameInstance.getUniqueGameObjectID();
             this.draggable = draggable;
+            this.visible = visible;
         }
 
         /// <summary>
@@ -194,13 +196,16 @@ namespace IntroductieProject
         /// </summary>
         internal virtual void draw(SpriteBatch batch)
         {
-            //First draw your own sprite
-            this.drawOwnSprite(batch);
+            if (visible)
+            {            
+                //First draw your own sprite
+                this.drawOwnSprite(batch);
 
-            // Then draw your children
-            foreach (GameObject child in this.children)
-            {
-                child.draw(batch);
+                // Then draw your children
+                foreach (GameObject child in this.children)
+                {
+                    child.draw(batch);
+                }
             }
         }
 

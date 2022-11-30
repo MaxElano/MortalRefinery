@@ -18,7 +18,6 @@ namespace IntroductieProject
         internal Player player;
         internal List<GameEntity> gameEntities = new List<GameEntity>();
 
-
         /// <summary>
         /// The constructor of the base level.
         /// It calls the constructor of the GameObject, so that that objects can do things such as setting the center and sprite of the level.
@@ -43,6 +42,12 @@ namespace IntroductieProject
             // We set the bridge to start moving
             lamp.startMoving();
             this.gameEntities.Add(lamp);
+
+            NormalAbilityCooldown_UI normalAbilityCooldown = new NormalAbilityCooldown_UI(new Vector2(60, 40), 20, 20, "damageUpSprite", player);
+            this.gameEntities.Add(normalAbilityCooldown);
+
+            SpecialAbilityCooldown_UI specialAbilityCooldown = new SpecialAbilityCooldown_UI(new Vector2(30, 40), 20, 20, "bridge", player);
+            this.gameEntities.Add(specialAbilityCooldown);
 
             // Lastly, add all game entities to the set of children.
             // Note that this makes game entities children, but not all children are game entities!

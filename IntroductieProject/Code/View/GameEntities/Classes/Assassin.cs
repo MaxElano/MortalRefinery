@@ -14,10 +14,10 @@ namespace IntroductieProject
         {
             currentClass = characterType.assassin;
 
-            this.MaxHealth = 30;
+            this.MaxHealth = 50;
             this.Health = MaxHealth;
             this.DamageMultiplier = 2;
-            this.MoveSpeed = 15;
+            this.MoveSpeed = 4;
             this.FireRate = 20;
 
             specialAbilityCooldown = 20 * 1000;
