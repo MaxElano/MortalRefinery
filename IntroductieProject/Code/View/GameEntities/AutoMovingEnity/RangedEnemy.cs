@@ -24,7 +24,7 @@ namespace IntroductieProject
 
             if (shot <= 0)
             {
-                Projectile p = new Projectile(centerPosition, 20, 20, new Vector2(level.player.centerPosition.X - centerPosition.X, level.player.centerPosition.Y - centerPosition.Y), 1, 10, "FireBall (2)");
+                Projectile p = new Projectile(centerPosition, 20, 20, new Vector2(level.player.centerPosition.X - centerPosition.X, level.player.centerPosition.Y - centerPosition.Y), 1, 10, "FireBall (2)", 500);
                 projectiles.Add(p);
                 shot = 60;
             }
@@ -58,3 +58,4 @@ namespace IntroductieProject
                 p.draw(batch);
         }
     }
+}
