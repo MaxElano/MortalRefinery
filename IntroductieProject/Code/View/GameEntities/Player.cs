@@ -40,14 +40,9 @@ namespace IntroductieProject
         bool canSpecialAbility;
         bool specialAbilityActive;
 
-        //All variables for the shooting function
-        float shootCooldownTimer;
-        float shootCooldown;
-        bool canShoot;
-
         public Player(Vector2 center, int width, int height, string assetName) : base (center, width, height, assetName)
         {
-            weapon = new Shotgun(centerPosition, 20,20,"damageUpSprite");
+            weapon = new Minigun(centerPosition, 20,20,"damageUpSprite");
             items = new List<Item>();
             orbitals = new List<Orbital>();
             item = new damageUp(new Vector2(100,100), 32, 32, "damageUpSprite");
@@ -55,8 +50,6 @@ namespace IntroductieProject
             orbitals.Add(new Orbital(200,new Vector2(center.X + 100, center.Y), 32, 32, 1, 10, "damageUpSprite"));
             orbitals.Add(new Orbital(300, new Vector2(center.X + 100, center.Y), 32, 32, 1, 10, "damageUpSprite"));
             orbitals.Add(new Orbital(100, new Vector2(center.X + 100, center.Y), 32, 32, 1, 10, "damageUpSprite"));
-            shootCooldown = (1 / FireRate) * 1000;
-            canShoot = true;
 
             //initializes the normal ability. (The 10 stands for 10 seconds, the 1000 converts from seconds to milliseconds).
             normalAbilityCooldown = 10 * 1000;
@@ -68,7 +61,7 @@ namespace IntroductieProject
         public void AllInfo()
         {
             Console.WriteLine("Class: " + currentClass + " MaxHealth: " + MaxHealth + " Health: " + Health + " DamageMultiplier: " + DamageMultiplier + " MoveSpeed: " + MoveSpeed + " IsAlive: " + IsAlive + " CanTakeDamage: " + CanTakeDamage);
-            Console.WriteLine("ShootCooldown: " + shootCooldownTimer + " CanShoot: " + canShoot + " NormalAbilityCooldown: " + normalAbilityCooldownTimer + " CanNormalAbility: " + canNormalAbility + " SpecialAbilityCooldown: " + specialAbilityCooldownTimer + " CanSpecialAbility: " + canSpecialAbility + " SpecialAbilityDuration: " + specialAbilityTimer);
+            Console.WriteLine(" NormalAbilityCooldown: " + normalAbilityCooldownTimer + " CanNormalAbility: " + canNormalAbility + " SpecialAbilityCooldown: " + specialAbilityCooldownTimer + " CanSpecialAbility: " + canSpecialAbility + " SpecialAbilityDuration: " + specialAbilityTimer);
         }
 
         internal override void update(GameTime gameTime)
@@ -83,10 +76,6 @@ namespace IntroductieProject
             weapon.updatePosition(centerPosition);
 
             base.update(gameTime);
-
-            //Update each projectile
-            foreach (Projectile p in projectiles)
-                p.update(gameTime);
 
             //Update the cooldown timers
             Cooldowns(gameTime);
@@ -109,9 +98,6 @@ namespace IntroductieProject
             weapon.draw(batch);
 
             base.draw(batch);
-
-            foreach (Projectile p in projectiles)
-                p.draw(batch);
         }
 
         //Changes the player's stats when picking up an item
@@ -148,14 +134,6 @@ namespace IntroductieProject
         //Updates the cooldown timers and handles the special ability duration
         private void Cooldowns(GameTime gameTime)
         {
-            if (!canShoot)
-            {
-                shootCooldownTimer -= gameTime.ElapsedGameTime.Milliseconds;
-                if (shootCooldownTimer <= 0)
-                {
-                    canShoot = true;
-                }
-            }
 
             if (!canNormalAbility)
             {

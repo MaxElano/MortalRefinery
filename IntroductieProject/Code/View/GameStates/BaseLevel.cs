@@ -30,6 +30,7 @@ namespace IntroductieProject
             // You probably want to remove this code at some points
             this.player = new Warrior(new Vector2(200, 700), 30, 100, "player");
             this.gameEntities.Add(player);
+            this.gameEntities.Add(new ChasingEnemy(new Vector2(500, 500), 100, 100, 5, 10, this, "Giant_Bat"));
 
             // We want to get a lamp, that stands up.
             // However, if we look at our base sprite, it has an arrow that points downwards when the lamp is lying on the floor!

@@ -17,8 +17,11 @@ namespace IntroductieProject
         public float Health { get; protected set; }
         public float DamageMultiplier { get; protected set; }
         public float MoveSpeed { get; protected set; }
+
+        public float FireRate { get; protected set; }
         public bool IsAlive { get; protected set; }
         public bool CanTakeDamage { get; protected set;}
+
         
 
         /// <summary>

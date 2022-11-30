@@ -20,6 +20,7 @@ namespace IntroductieProject
         public float shootCooldown;
         public bool canShoot;
         Random random;
+        public float miniGunModifier = 1;
 
         public Weapon(Vector2 center, int width, int height, string assetName) : base(center, width, height, assetName)
         {
@@ -48,6 +49,11 @@ namespace IntroductieProject
 
         internal override void update(GameTime time)
         {
+
+            if (InputManager.isKeyJustReleased(Keys.Space))
+            {
+                miniGunModifier = 0.5f;
+            }
 
             shootCooldown -= time.ElapsedGameTime.Milliseconds;
             if (shootCooldown <= 0)
@@ -125,7 +131,6 @@ namespace IntroductieProject
 
     class Minigun : Weapon
     {
-        float miniGunModifier = 1;
         public Minigun(Vector2 center, int width, int height, string assetName) : base(center, width, height, assetName)
         {
             weaponFireRate = 1f;
@@ -148,10 +153,6 @@ namespace IntroductieProject
             if(miniGunModifier > 10)
                 miniGunModifier = 10;
 
-            if (InputManager.isKeyJustReleased(Keys.Space))
-            {
-                miniGunModifier = 0.5f;
-            }
         }
     }
 }
