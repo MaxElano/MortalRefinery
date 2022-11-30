@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Mime;
 using System.Net.Security;
 using System.Text;
 using Microsoft.Xna.Framework;
@@ -63,7 +64,7 @@ namespace IntroductieProject
         {
             CanTakeDamage = true;
             
-            conditionalSprite = new ConditionalSprite(assetName, orientation);
+            conditionalSprite = new ConditionalSprite(assetName);
             conditionalSprite.AssignType(assetName);
         }
 
@@ -80,7 +81,7 @@ namespace IntroductieProject
 
             double elapsed = time.ElapsedGameTime.TotalMilliseconds;
 
-            conditionalSprite.update(time);
+            conditionalSprite.update(time, orientation);
 
             // Invoke the logic for making an object move based on its velocity and direction.
             this.moveEntity(time);
@@ -138,6 +139,19 @@ namespace IntroductieProject
         internal virtual void stopMoving()
         {
             this.velocity = 0;
+        }
+
+        /// <summary>
+        /// This function returns the bounding box of the GameEntity. 
+        /// This function exists to show what might happen when you have objects with another orientation.
+        /// </summary>
+        internal override Rectangle getBoundingBox()
+        {
+            // If we are oriented left/right instead of up/down, our width and height swaps!
+            if (this.orientation == EntityOrientation.Right || this.orientation == EntityOrientation.Left)
+                return new Rectangle((int)this.centerPosition.X - height / 2, (int)this.centerPosition.Y - width / 2, height, width);
+            else
+                return new Rectangle((int)this.centerPosition.X - width / 2, (int)this.centerPosition.Y - height / 2, width, height);
         }
 
         /// <summary>

@@ -28,16 +28,16 @@ namespace IntroductieProject
         {
             // A player and a bridge, and a lamp added, just to show how the code works.
             // You probably want to remove this code at some points
-            this.player = new Warrior(new Vector2(200, 700), 30, 100, "player");
+            this.player = new Warrior(new Vector2(200, 700), 30, 100, "Player");
             this.gameEntities.Add(player);
-            this.gameEntities.Add(new ChasingEnemy(new Vector2(500, 500), 100, 100, 5, 10, this, "Giant_Bat"));
+            this.gameEntities.Add(new ChasingEnemy(new Vector2(500, 500), 100, 100, 5, 10, this, "GiantBatEnemy"));
 
             // We want to get a lamp, that stands up.
             // However, if we look at our base sprite, it has an arrow that points downwards when the lamp is lying on the floor!
             // This is why we define a width and a height as if the lamp is lying down: more width than height.
             // We then rotate the lamp.
             // "beatiful code" would let the lamp change its own sprite. This should not be the responsibility of this level class, so go and add code in GameEntity that can get its own sprite!
-            GameEntity lamp = new GameEntity(new Vector2(700, 700), 100, 30, "LampRightLooking");
+            GameEntity lamp = new GameEntity(new Vector2(700, 700), 30, 100, "LampEnemy");
 
             lamp.orientation = EntityOrientation.Right;
             // We set the bridge to start moving
