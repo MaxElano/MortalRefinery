@@ -41,7 +41,7 @@ namespace IntroductieProject
         /// In this case, this float represents the speed at which it moves.
         /// We made sure that only an entity can acccess its base speed.
         /// </summary>
-        //protected float baseSpeed = 3;
+        protected float baseSpeed = 3;
 
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace IntroductieProject
         /// </summary>
         internal virtual void startMoving()
         {
-            this.velocity = this.MoveSpeed;
+            this.velocity = this.baseSpeed;
         }
 
         /// <summary>
