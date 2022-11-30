@@ -15,18 +15,14 @@ namespace IntroductieProject
     internal class Player : GameEntity
     {
         List<Item> items;
-        List<Projectile> projectiles;
         Item item;
         Item item2;
-        public float FireRate { get; protected set; }
         List<Orbital> orbitals;
-
-        float shootCooldown;
-        bool canShoot;
+        Weapon weapon;
 
         public Player(Vector2 center, int width, int height, string assetName) : base (center, width, height, assetName)
         {
-            projectiles = new List<Projectile>();
+            weapon = new Shotgun(centerPosition, 20,20,"damageUpSprite");
             items = new List<Item>();
             orbitals = new List<Orbital>();
             item = new damageUp(new Vector2(100,100), 32, 32, "damageUpSprite");
@@ -34,8 +30,6 @@ namespace IntroductieProject
             orbitals.Add(new Orbital(200,new Vector2(center.X + 100, center.Y), 32, 32, 1, 10, "damageUpSprite"));
             orbitals.Add(new Orbital(300, new Vector2(center.X + 100, center.Y), 32, 32, 1, 10, "damageUpSprite"));
             orbitals.Add(new Orbital(100, new Vector2(center.X + 100, center.Y), 32, 32, 1, 10, "damageUpSprite"));
-            shootCooldown = (1 / FireRate) * 1000;
-            canShoot = true;
         }
 
         internal override void update(GameTime gameTime)
@@ -45,45 +39,27 @@ namespace IntroductieProject
                 orbital.update(gameTime);
                 orbital.updatePosition(centerPosition);
             }
+
+            weapon.update(gameTime);
+            weapon.updatePosition(centerPosition);
+
+
+
             base.update(gameTime);
-            
-            foreach (Projectile p in projectiles)
-                p.update(gameTime);
-            
-            shootCooldown -= gameTime.ElapsedGameTime.Milliseconds;
-            if (shootCooldown <= 0)
-            {
-                canShoot = true;
-            }
 
             InputHelper(gameTime);
-
-            InputHelper();
-
-        }
-
-        protected void Shoot(GameTime gameTime)
-        {
-            if (canShoot)
-            {
-                projectiles.Add(new Projectile(centerPosition, 100, 100, new Vector2(InputManager.MouseState.Position.X - centerPosition.X, InputManager.MouseState.Position.Y - centerPosition.Y), 10, 5));
-                ChangeStats(item);
-                shootCooldown = (1 / FireRate) * 1000;
-                canShoot = false;
-            }
         }
 
         internal override void draw(SpriteBatch batch)
         {
             item.draw(batch);
             item2.draw(batch);
-            foreach(Orbital huts in orbitals)
-                huts.draw(batch);
-            
-            base.draw(batch);
+            foreach(Orbital orbital in orbitals)
+                orbital.draw(batch);
 
-            foreach (Projectile p in projectiles)
-                p.draw(batch);
+            weapon.draw(batch);
+
+            base.draw(batch);
         }
         public void ChangeStats(Item item)
         {
@@ -99,7 +75,7 @@ namespace IntroductieProject
         {
             if (InputManager.isKeyDown(Keys.Space))
             {
-                Shoot(gameTime);
+                weapon.Shoot(gameTime);
             }
 
             if (InputManager.isKeyDown(Keys.E))

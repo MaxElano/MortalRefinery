@@ -24,11 +24,6 @@ namespace IntroductieProject
             this.direction = direction;
         }
 
-        private void shoot(string weapon)
-        {
-            new Projectile(centerPosition, 1, 1, new Vector2(1, 1), 1, 10);
-        }
-
         internal override void update(GameTime gameTime)
         {
             base.update(gameTime);

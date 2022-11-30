@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Security;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -151,7 +152,7 @@ namespace IntroductieProject
         /// <summary>
         /// Resets everything after death.
         /// </summary>
-        protected virtual void Die()
+        protected virtual void Die(GameEntity entity)
         {
             IsAlive = false;
             stopMoving();
