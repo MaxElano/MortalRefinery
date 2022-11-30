@@ -9,7 +9,7 @@ namespace IntroductieProject
 {
     internal class Healer : Player
     {
-        public Healer(Vector2 center, int width, int height) : base(center, width, height, "Characters/Healer")
+        public Healer(Vector2 center, int width, int height) : base(center, width, height, "Player/Player")
         {
             currentClass = characterType.healer;
 
