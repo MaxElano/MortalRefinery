@@ -114,7 +114,7 @@ namespace IntroductieProject
         /// </summary>
         internal virtual void startMoving()
         {
-            this.velocity = this.baseSpeed;
+            this.velocity = this.MoveSpeed;
         }
 
         /// <summary>
