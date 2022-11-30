@@ -13,7 +13,7 @@ namespace IntroductieProject
 
         internal ChasingEnemy(Vector2 center, int width, int height, int damage, int health, BaseLevel level, string assetName = "Giant_Bat") : base(center, width, height, damage, health, level, assetName)
         {
-
+            MoveSpeed = baseSpeed;
         }
 
         internal override void update(GameTime time)
@@ -23,9 +23,9 @@ namespace IntroductieProject
             setdirection();
 
             if (centerPosition.X > level.player.centerPosition.X)
-                spriteEffect = SpriteEffects.FlipHorizontally;
+                orientation = EntityOrientation.Left;
             else
-                spriteEffect = SpriteEffects.None;
+                orientation= EntityOrientation.Right;
         }
 
 

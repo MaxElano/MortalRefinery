@@ -264,24 +264,28 @@ namespace IntroductieProject
                 direction = new Vector2(-1, 0);
                 if (velocity == 0)
                     startMoving();
+                orientation = EntityOrientation.Left;
             }
             if (InputManager.isKeyDown(Keys.D))
             {
                 direction = new Vector2(1, 0);
                 if (velocity == 0)
                     startMoving();
+                orientation = EntityOrientation.Right;
             }
             if (InputManager.isKeyDown(Keys.W))
             {
                 direction = new Vector2(0, -1);
                 if (velocity == 0)
                     startMoving();
+                orientation = EntityOrientation.Up;
             }
             if (InputManager.isKeyDown(Keys.S))
             {
                 direction = new Vector2(0, 1);
                 if (velocity == 0)
                     startMoving();
+                orientation = EntityOrientation.Down;
             }
             if (InputManager.isKeyDown(Keys.A) && InputManager.isKeyDown(Keys.S))
             {

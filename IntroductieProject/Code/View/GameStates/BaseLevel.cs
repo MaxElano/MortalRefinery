@@ -29,10 +29,10 @@ namespace IntroductieProject
             // You probably want to remove this code at some points
             this.player = new Warrior(new Vector2(200, 700), 30, 100);
             this.gameEntities.Add(player);
-            this.gameEntities.Add(new ChasingEnemy(new Vector2(500, 500), 100, 100, 5, 10, this, "Giant_Bat"));
+            this.gameEntities.Add(new ChasingEnemy(new Vector2(500, 500), 100, 100, 5, 10, this, "GiantBatEnemy"));
 
             // "beatiful code" would let the lamp change its own sprite. This should not be the responsibility of this level class, so go and add code in GameEntity that can get its own sprite!
-            GameEntity lamp = new GameEntity(new Vector2(700, 700), 100, 30, "LampRightLooking");
+            GameEntity lamp = new GameEntity(new Vector2(700, 700), 30, 100, "LampEnemy");
 
             lamp.orientation = EntityOrientation.Right;
             // We set the bridge to start moving

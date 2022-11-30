@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Mime;
 using System.Net.Security;
 using System.Reflection.Emit;
 using System.Text;
@@ -57,9 +59,14 @@ namespace IntroductieProject
         /// </summary>
         protected readonly float velocityScale = 16.6667f;
 
+        protected ConditionalSprite conditionalSprite;
+
         internal GameEntity(Vector2 center, int width, int height, string assetName = "bridge") : base(center, width, height, assetName)
         {
             CanTakeDamage = true;
+            
+            conditionalSprite = new ConditionalSprite(assetName);
+            conditionalSprite.AssignType(assetName);
         }
 
 
@@ -75,8 +82,17 @@ namespace IntroductieProject
 
             double elapsed = time.ElapsedGameTime.TotalMilliseconds;
 
+            conditionalSprite.update(time, orientation);
+
             // Invoke the logic for making an object move based on its velocity and direction.
             this.moveEntity(time);
+        }
+
+        internal override void draw(SpriteBatch batch)
+        {
+            string assetName = conditionalSprite.AssetName;
+            this.sprite = Game.GameInstance.getSprite(assetName);
+            base.draw(batch);
         }
 
         /// <summary>
@@ -114,7 +130,7 @@ namespace IntroductieProject
         /// </summary>
         internal virtual void startMoving()
         {
-            this.velocity = this.baseSpeed;
+            this.velocity = this.MoveSpeed;
         }
 
         /// <summary>
@@ -124,19 +140,6 @@ namespace IntroductieProject
         internal virtual void stopMoving()
         {
             this.velocity = 0;
-        }
-
-        /// <summary>
-        /// This function returns the bounding box of the GameEntity. 
-        /// This function exists to show what might happen when you have objects with another orientation.
-        /// </summary>
-        internal override Rectangle getBoundingBox()
-        {
-            // If we are oriented left/right instead of up/down, our width and height swaps!
-            if (this.orientation == EntityOrientation.Right || this.orientation == EntityOrientation.Left)
-                return new Rectangle((int)this.centerPosition.X - height / 2, (int)this.centerPosition.Y - width / 2, height, width);
-            else
-                return new Rectangle((int)this.centerPosition.X - width / 2, (int)this.centerPosition.Y - height / 2, width, height);
         }
 
         /// <summary>
