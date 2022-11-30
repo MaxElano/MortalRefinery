@@ -9,7 +9,7 @@ namespace IntroductieProject
 {
     internal class Warrior : Player
     {
-        public Warrior(Vector2 center, int width, int height, string assetName = "Warrior") : base(center, width, height, assetName)
+        public Warrior(Vector2 center, int width, int height) : base(center, width, height, "Characters/Warrior")
         {
             currentClass = characterType.warrior;
 
