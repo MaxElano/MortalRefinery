@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Security;
+using System.Reflection.Emit;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -22,7 +23,7 @@ namespace IntroductieProject
         public bool IsAlive { get; protected set; }
         public bool CanTakeDamage { get; protected set;}
 
-        
+
 
         /// <summary>
         /// This float represents the Orientation of the object, standard objects are oriented downwards, so they look at you!
@@ -47,7 +48,7 @@ namespace IntroductieProject
         /// In this case, this float represents the speed at which it moves.
         /// We made sure that only an entity can acccess its base speed.
         /// </summary>
-        //protected float baseSpeed = 3;
+        protected float baseSpeed = 3;
 
 
         /// <summary>
@@ -113,7 +114,7 @@ namespace IntroductieProject
         /// </summary>
         internal virtual void startMoving()
         {
-            this.velocity = this.MoveSpeed;
+            this.velocity = this.baseSpeed;
         }
 
         /// <summary>
@@ -164,6 +165,14 @@ namespace IntroductieProject
         {
             IsAlive = false;
             stopMoving();
+        }
+
+        public bool CollisionDetection(GameEntity other)
+        {
+            if (this.getBoundingBox().Intersects(other.getBoundingBox())){
+                return true;
+            }
+            return false;
         }
 
     }
