@@ -61,6 +61,30 @@
 /processorParam:TextureFormat=Color
 /build:damageUpSprite.webp
 
+#begin DroneEnemyL.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:DroneEnemyL.png
+
+#begin DroneEnemyR.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:DroneEnemyR.png
+
 #begin FireBall (2).png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -72,30 +96,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:FireBall (2).png
-
-#begin GiantBatEnemeR.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:GiantBatEnemeR.png;GiantBatEnemyR.png
-
-#begin GiantBatEnemyL.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:GiantBatEnemyL.png
 
 #begin LampEnemyL.png
 /importer:TextureImporter
@@ -360,6 +360,18 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Player/PlayerU4.png
+
+#begin Projectiles/BlueProjectile.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Projectiles/BlueProjectile.png
 
 #begin Projectiles/Bullet1.png
 /importer:TextureImporter

@@ -85,7 +85,7 @@ namespace IntroductieProject
 
        
             SpriteBatch sb = new SpriteBatch(this.GraphicsDevice);
-            sb.Begin();
+            sb.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp);
             gameState.draw(sb);
             sb.End();
            

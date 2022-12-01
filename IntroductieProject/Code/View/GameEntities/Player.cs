@@ -61,7 +61,7 @@ namespace IntroductieProject
         {
 
             weapon2 = new Shotgun(centerPosition, 20,20,"damageUpSprite", "damageUpSprite");
-            weapon1 = new LaserGun(centerPosition, 20, 20, "damageUpSprite", "laser");
+            weapon1 = new LaserGun(centerPosition, 20, 20, "damageUpSprite", "BlueProjectile");
             weaponList[0] = weapon1;
             weaponList[1] = weapon2;
             currentWeapon = weaponList[0];
@@ -75,9 +75,9 @@ namespace IntroductieProject
             item = new damageUp(new Vector2(100,100), 32, 32, "damageUpSprite");
             item2 = new healthUp(new Vector2(200, 100), 32, 32, "damageUpSprite");
 
-            orbitals.Add(new Orbital(200,new Vector2(center.X + 100, center.Y), 32, 32, 1, 10, "damageUpSprite"));
-            orbitals.Add(new Orbital(300, new Vector2(center.X + 100, center.Y), 32, 32, 1, 10, "damageUpSprite"));
-            orbitals.Add(new Orbital(100, new Vector2(center.X + 100, center.Y), 32, 32, 1, 10, "damageUpSprite"));
+            orbitals.Add(new Orbital(200,new Vector2(center.X + 100, center.Y), 40, 40, 1, 10, "BlueProjectile"));
+            orbitals.Add(new Orbital(300, new Vector2(center.X + 100, center.Y), 40, 40, 1, 10, "BlueProjectile"));
+            orbitals.Add(new Orbital(100, new Vector2(center.X + 100, center.Y), 40, 40, 1, 10, "BlueProjectile"));
 
             projectiles = new List<Projectile>();
 
