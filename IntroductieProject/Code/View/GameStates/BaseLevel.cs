@@ -27,9 +27,9 @@ namespace IntroductieProject
         {
             // A player and a bridge, and a lamp added, just to show how the code works.
             // You probably want to remove this code at some points
-            this.player = new Warrior(new Vector2(0, 0), 30, 100);
+            this.player = new Assassin(new Vector2(0, 0), 80, 80);
             this.gameEntities.Add(player);
-            this.gameEntities.Add(new ChasingEnemy(new Vector2(500, 500), 120, 120, 5, 10, this, "DroneEnemy"));
+            this.gameEntities.Add(new RangedEnemy(new Vector2(700, 500), 120, 120, 10, 5, 10, this, "DroneEnemy", "RedProjectile"));
 
             // "beatiful code" would let the lamp change its own sprite. This should not be the responsibility of this level class, so go and add code in GameEntity that can get its own sprite!
             GameEntity lamp = new GameEntity(new Vector2(700, 700), 30, 100, "LampEnemy");
