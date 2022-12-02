@@ -25,18 +25,6 @@ namespace IntroductieProject
         /// </summary>
         internal BaseLevel(Vector2 center, int width, int height, string assetName = "background") : base(center, width, height, assetName)
         {
-            this.gameEntities.Add(new GameEntity(new Vector2(700, 700), 100, 100, "Temporary Tiles/Dash"));
-            this.gameEntities.Add(new GameEntity(new Vector2(800, 700), 100, 100, "Temporary Tiles/DamageUp"));
-            this.gameEntities.Add(new GameEntity(new Vector2(900, 700), 100, 100, "Temporary Tiles/HealthUp"));
-            this.gameEntities.Add(new GameEntity(new Vector2(1000, 700), 100, 100, "Temporary Tiles/ShieldUp"));
-            this.gameEntities.Add(new GameEntity(new Vector2(700, 200), 100, 100, "Temporary Tiles/WallSprite"));
-            this.gameEntities.Add(new GameEntity(new Vector2(800, 200), 100, 100, "Temporary Tiles/FloorSprite"));
-            this.gameEntities.Add(new GameEntity(new Vector2(900, 200), 100, 100, "Temporary Tiles/Walkway"));
-            this.gameEntities.Add(new GameEntity(new Vector2(1000, 200), 100, 100, "Temporary Tiles/HoleSprite"));
-            this.gameEntities.Add(new GameEntity(new Vector2(700, 400), 100, 100, "pistol"));
-            this.gameEntities.Add(new GameEntity(new Vector2(800, 400), 100, 100, "Shotgun"));
-            this.gameEntities.Add(new GameEntity(new Vector2(925, 400), 150, 100, "Sniper"));
-            this.gameEntities.Add(new GameEntity(new Vector2(1075, 400), 150, 100, "LaserRifle"));
             // A player and a bridge, and a lamp added, just to show how the code works.
             // You probably want to remove this code at some points
             this.player = new Healer(new Vector2(0, 0), 80, 80);
