@@ -13,8 +13,6 @@ namespace IntroductieProject
     internal class Projectile : GameEntity
     {
 
-        internal float angle { get; set; }
-
         public float gunRange { get; protected set; }
 
         public Vector2 startPosition;
@@ -46,9 +44,8 @@ namespace IntroductieProject
         {
             RotationInDegress = (float)Math.Atan2(direction.X, direction.Y);
 
-            RotationInDegress += 90 ;
-
             RotationInDegress = MathHelper.ToDegrees(RotationInDegress);
+            RotationInDegress += 90;
             return -RotationInDegress;
 
         }
