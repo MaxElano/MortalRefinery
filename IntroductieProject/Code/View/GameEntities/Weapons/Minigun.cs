@@ -8,13 +8,14 @@ namespace IntroductieProject.Code.View.GameEntities.Weapons
     class Minigun : Weapon
     {
 
-        public Minigun(Vector2 center, int width, int height, string assetName, string bulletSpriteName) : base(center, width, height, assetName, bulletSpriteName)
+        public Minigun(Vector2 center, int width, int height, string assetName) : base(center, width, height, assetName)
         {
             weaponFireRate = 1f;
             shotSpeed = 15;
             projectileSize = 1f;
             gunRange = 900;
             spreadStrength = 6;
+            spriteName = "BlueProjectile";
         }
 
         public override void Shoot(GameTime gameTime, List<Projectile> projectiles)

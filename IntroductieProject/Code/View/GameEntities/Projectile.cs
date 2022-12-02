@@ -46,8 +46,6 @@ namespace IntroductieProject
 
             RotationInDegress = MathHelper.ToDegrees(RotationInDegress);
 
-            RotationInDegress += 90;
-
             return -RotationInDegress;
 
         }
@@ -59,7 +57,7 @@ namespace IntroductieProject
 
         internal override void draw(SpriteBatch batch)
         {
-            batch.Draw(sprite, getBoundingBox(), null, Color.White, MathHelper.ToRadians(RotationInDegress), new Vector2(-width / 2, 0), spriteEffect, 0f);
+            batch.Draw(sprite, getBoundingBox(), null, Color.White, MathHelper.ToRadians(RotationInDegress), new Vector2(0, 0), spriteEffect, 0f);
         }
 
         internal override Rectangle getBoundingBox()

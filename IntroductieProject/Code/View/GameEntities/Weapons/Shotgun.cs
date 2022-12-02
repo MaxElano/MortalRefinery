@@ -7,13 +7,14 @@ namespace IntroductieProject.Code.View.GameEntities.Weapons
 {
     class Shotgun : Weapon
     {
-        public Shotgun(Vector2 center, int width, int height, string assetName, string bulletSpriteName) : base(center, width, height, assetName, bulletSpriteName)
+        public Shotgun(Vector2 center, int width, int height, string assetName) : base(center, width = 48, height = 32, assetName)
         {
             weaponFireRate = 0.5f;
             shotSpeed = 20;
             projectileSize = 1.5f;
             gunRange = 300;
             spreadStrength = 8;
+            spriteName = "BlueProjectile";
         }
 
         public override void Shoot(GameTime gameTime, List<Projectile> projectiles)

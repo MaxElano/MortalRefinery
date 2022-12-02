@@ -60,8 +60,8 @@ namespace IntroductieProject
         public Player(Vector2 center, int width, int height, string assetName) : base (center, width, height, assetName)
         {
 
-            weapon2 = new Shotgun(centerPosition, 20,20,"damageUpSprite", "BlueProjectile");
-            weapon1 = new LaserGun(centerPosition, 20, 20, "damageUpSprite", "laser");
+            weapon2 = new Shotgun(centerPosition, 0, 0,"Shotgun");
+            weapon1 = new LaserGun(centerPosition, 0, 0, "LaserRifle");
             weaponList[0] = weapon1;
             weaponList[1] = weapon2;
             currentWeapon = weaponList[0];

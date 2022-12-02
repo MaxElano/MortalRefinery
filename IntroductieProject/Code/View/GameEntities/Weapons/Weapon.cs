@@ -27,16 +27,17 @@ namespace IntroductieProject
         public float miniGunModifier = 1;
 
 
-        public Weapon(Vector2 center, int width, int height, string assetName, string bulletSpriteName) : base(center, width, height, assetName)
+        public Weapon(Vector2 center, int width, int height, string assetName) : base(center, width, height, assetName)
         {
             canShoot = true;
             random = new Random();
-            spriteName = bulletSpriteName;
         }
+
         public virtual void Shoot(GameTime gameTime, List<Projectile> projectiles)
         {
             if (canShoot)
             {
+
                 projectiles.Add(new Projectile(centerPosition, (int)(10 + 0.10 * projectileSize), (int)(10 + 0.10 * projectileSize), addSpread(new Vector2(InputManager.MouseState.Position.X - centerPosition.X - width / 2, InputManager.MouseState.Position.Y - centerPosition.Y - height / 2), spreadStrength), shotSpeed, 5, spriteName, gunRange));
                 shootCooldown = (1 / weaponFireRate) * 1000;
                 
