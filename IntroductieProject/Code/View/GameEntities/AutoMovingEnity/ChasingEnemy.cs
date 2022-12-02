@@ -12,7 +12,7 @@ namespace IntroductieProject
 
         internal ChasingEnemy(Vector2 center, int width, int height, int damage, int health, BaseLevel level, string assetName = "Giant_Bat") : base(center, width, height, damage, health, level, assetName)
         {
-
+            this.MoveSpeed = 2;
         }
 
         internal override void update(GameTime time)

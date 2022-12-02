@@ -54,7 +54,7 @@ namespace IntroductieProject
         public Player(Vector2 center, int width, int height, string assetName) : base (center, width, height, assetName)
         {
 
-            weapon2 = new Shotgun(centerPosition, 20,20,"damageUpSprite", "damageUpSprite");
+            weapon2 = new Shotgun(centerPosition, 20,20,"damageUpSprite", "Bullet1");
             weapon1 = new LaserGun(centerPosition, 20, 20, "damageUpSprite", "laser");
             weaponList[0] = weapon1;
             weaponList[1] = weapon2;
@@ -77,7 +77,7 @@ namespace IntroductieProject
             normalAbilityCooldownTimer = normalAbilityCooldown;
             canNormalAbility = true;
 
-            weaponSwapCooldown = 100;
+            weaponSwapCooldown = 1000;
         }
 
         //Displays all player info on the console
@@ -158,6 +158,7 @@ namespace IntroductieProject
             weaponList[0] = weaponList[1];
             weaponList[1] = tempWeapon;
             currentWeapon = weaponList[0];
+            weaponSwapCooldown = 1000;
         }
 
         //Dash function for every character
