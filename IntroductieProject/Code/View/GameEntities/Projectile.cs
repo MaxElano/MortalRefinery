@@ -45,7 +45,9 @@ namespace IntroductieProject
             RotationInDegress = (float)Math.Atan2(direction.X, direction.Y);
 
             RotationInDegress = MathHelper.ToDegrees(RotationInDegress);
+
             RotationInDegress += 90;
+
             return -RotationInDegress;
 
         }
@@ -53,6 +55,16 @@ namespace IntroductieProject
         protected override void Die(GameEntity entity)
         {
             base.Die(entity);
+        }
+
+        internal override void draw(SpriteBatch batch)
+        {
+            batch.Draw(sprite, getBoundingBox(), null, Color.White, MathHelper.ToRadians(RotationInDegress), new Vector2(-width / 2, 0), spriteEffect, 0f);
+        }
+
+        internal override Rectangle getBoundingBox()
+        {
+            return new Rectangle((int)this.centerPosition.X, (int)this.centerPosition.Y, width, height);
         }
     }
 }

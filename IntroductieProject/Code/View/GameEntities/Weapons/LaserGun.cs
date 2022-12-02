@@ -21,19 +21,8 @@ namespace IntroductieProject.Code.View.GameEntities.Weapons
         {
             if (canShoot)
             {
-               // for(int i = 0; i <= 10; i++)
-                //{
-                    projectiles.Add(new Projectile(centerPosition, (int)(1000 + 0.10 * projectileSize), (int)(10 + 0.10 * projectileSize), addSpread(new Vector2((InputManager.MouseState.Position.X - centerPosition.X), (InputManager.MouseState.Position.Y - centerPosition.Y)), spreadStrength), shotSpeed, 5, spriteName, gunRange));
-                //}
-
-                /*foreach (Projectile p in projectiles)
-                {
-                    int counter = 1;
-                    p.centerPosition = new Vector2(p.centerPosition.X + counter * p.width, p.centerPosition.Y + counter * p.height);
-                    counter++;
-                }*/
-                   
-                shootCooldown = (1 / weaponFireRate) * 10;
+                projectiles.Add(new Projectile(centerPosition + new Vector2(width/2, 0), (int)(100 + 0.10 * projectileSize), (int)(100 + 0.10 * projectileSize), addSpread(new Vector2(InputManager.MouseState.Position.X - centerPosition.X - width / 2, InputManager.MouseState.Position.Y - centerPosition.Y - height / 2), spreadStrength), shotSpeed, 5, spriteName, gunRange));
+                shootCooldown = (1 / weaponFireRate) * 1000;
                 canShoot = false;
             }
         }
