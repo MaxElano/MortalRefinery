@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Diagnostics;
 using System.Security.Cryptography.X509Certificates;
 
 namespace IntroductieProject
@@ -25,7 +26,7 @@ namespace IntroductieProject
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-
+            
 
 
             GameInstance = this;
@@ -84,7 +85,7 @@ namespace IntroductieProject
 
        
             SpriteBatch sb = new SpriteBatch(this.GraphicsDevice);
-            sb.Begin();
+            sb.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp);
             gameState.draw(sb);
             sb.End();
            
@@ -114,6 +115,21 @@ namespace IntroductieProject
             }
 
             return sprite;
+        }
+
+        internal SpriteFont getFont(string assetName)
+        {
+            SpriteFont font;
+            try
+            {
+                font = this.Content.Load<SpriteFont>(assetName);
+            }
+            catch (ContentLoadException)
+            {
+                font = this.Content.Load<SpriteFont>("SpelFont");
+            }
+
+            return font;
         }
     }
 }

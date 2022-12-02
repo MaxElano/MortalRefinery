@@ -13,11 +13,10 @@ namespace IntroductieProject
     /// This class is responsible for collecting all assets that have to do with a level, and for making sure that all elements are drawn and updated correctly.
     /// Crucially, this class is NOT responsible for handling game logic itself. That is what controllers are for.
     /// </summary>
-    class BaseLevel : GameObject
+    partial class BaseLevel : GameObject
     {
         internal Player player;
         internal List<GameEntity> gameEntities = new List<GameEntity>();
-
 
         /// <summary>
         /// The constructor of the base level.
@@ -28,21 +27,23 @@ namespace IntroductieProject
         {
             // A player and a bridge, and a lamp added, just to show how the code works.
             // You probably want to remove this code at some points
-            this.player = new Warrior(new Vector2(200, 700), 30, 100, "player");
+            this.player = new Warrior(new Vector2(0, 0), 30, 100);
             this.gameEntities.Add(player);
-            this.gameEntities.Add(new ChasingEnemy(new Vector2(500, 500), 100, 100, 5, 10, this, "Giant_Bat"));
+            this.gameEntities.Add(new ChasingEnemy(new Vector2(500, 500), 120, 120, 5, 10, this, "DroneEnemy"));
 
-            // We want to get a lamp, that stands up.
-            // However, if we look at our base sprite, it has an arrow that points downwards when the lamp is lying on the floor!
-            // This is why we define a width and a height as if the lamp is lying down: more width than height.
-            // We then rotate the lamp.
             // "beatiful code" would let the lamp change its own sprite. This should not be the responsibility of this level class, so go and add code in GameEntity that can get its own sprite!
-            GameEntity lamp = new GameEntity(new Vector2(700, 700), 100, 30, "LampRightLooking");
+            GameEntity lamp = new GameEntity(new Vector2(700, 700), 30, 100, "LampEnemy");
 
             lamp.orientation = EntityOrientation.Right;
             // We set the bridge to start moving
             lamp.startMoving();
             this.gameEntities.Add(lamp);
+
+            NormalAbilityCooldown_UI normalAbilityCooldown = new NormalAbilityCooldown_UI(new Vector2(60, 40), 20, 20, "damageUpSprite", player);
+            this.gameEntities.Add(normalAbilityCooldown);
+
+            SpecialAbilityCooldown_UI specialAbilityCooldown = new SpecialAbilityCooldown_UI(new Vector2(30, 40), 20, 20, "bridge", player);
+            this.gameEntities.Add(specialAbilityCooldown);
 
             // Lastly, add all game entities to the set of children.
             // Note that this makes game entities children, but not all children are game entities!

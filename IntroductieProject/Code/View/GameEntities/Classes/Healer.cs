@@ -9,14 +9,14 @@ namespace IntroductieProject
 {
     internal class Healer : Player
     {
-        public Healer(Vector2 center, int width, int height, string assetName = "Healer") : base(center, width, height, "Characters/" + assetName)
+        public Healer(Vector2 center, int width, int height) : base(center, width, height, "Player/Player")
         {
             currentClass = characterType.healer;
 
             this.MaxHealth = 100;
             this.Health = MaxHealth;
             this.DamageMultiplier = 1;
-            this.MoveSpeed = 5;
+            this.MoveSpeed = 3;
             this.FireRate = 10;
 
             specialAbilityCooldown = 30 * 1000;

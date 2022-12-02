@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 using System.Text;
 using Microsoft.VisualBasic.FileIO;
 using Microsoft.Xna.Framework;
@@ -11,7 +12,11 @@ namespace IntroductieProject
 {
     internal class Projectile : GameEntity
     {
+
+        internal float angle { get; set; }
+
         public float gunRange { get; protected set; }
+
         public Vector2 startPosition;
 
         public Projectile(Vector2 center, int width, int height, Vector2 direction, float moveSpeed, int damage, string assetName, float range) : base (center, width, height, "Projectiles/" + assetName)
@@ -24,6 +29,7 @@ namespace IntroductieProject
             this.direction = direction;
             this.gunRange = range;
             startPosition = center;
+            RotationInDegress = AddRotation();
         }
 
         internal override void update(GameTime gameTime)
@@ -34,6 +40,17 @@ namespace IntroductieProject
                 Die(this);
             }
             base.update(gameTime);
+        }
+
+        internal float AddRotation()
+        {
+            RotationInDegress = (float)Math.Atan2(direction.X, direction.Y);
+
+            RotationInDegress += 90 ;
+
+            RotationInDegress = MathHelper.ToDegrees(RotationInDegress);
+            return -RotationInDegress;
+
         }
 
         protected override void Die(GameEntity entity)

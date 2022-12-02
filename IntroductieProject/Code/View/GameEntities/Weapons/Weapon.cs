@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -35,8 +37,9 @@ namespace IntroductieProject
         {
             if (canShoot)
             {
-                projectiles.Add(new Projectile(centerPosition, (int)(10 + 0.10 * projectileSize), (int)(10 + 0.10 * projectileSize), addSpread(new Vector2(InputManager.MouseState.Position.X - centerPosition.X, InputManager.MouseState.Position.Y - centerPosition.Y), spreadStrength), shotSpeed, 5, spriteName, gunRange));
+                projectiles.Add(new Projectile(centerPosition, (int)(10 + 0.10 * projectileSize), (int)(10 + 0.10 * projectileSize), addSpread(new Vector2(InputManager.MouseState.Position.X - centerPosition.X - width / 2, InputManager.MouseState.Position.Y - centerPosition.Y - height / 2), spreadStrength), shotSpeed, 5, spriteName, gunRange));
                 shootCooldown = (1 / weaponFireRate) * 1000;
+                
                 canShoot = false;
             }
         }
