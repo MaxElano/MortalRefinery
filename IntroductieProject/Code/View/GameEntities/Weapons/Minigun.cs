@@ -8,7 +8,7 @@ namespace IntroductieProject.Code.View.GameEntities.Weapons
     class Minigun : Weapon
     {
 
-        public Minigun(Vector2 center, int width, int height, string assetName) : base(center, width, height, assetName)
+        public Minigun(Vector2 center, int width, int height, string assetName = " ") : base(center, width, height, assetName)
         {
             weaponFireRate = 1f;
             shotSpeed = 15;

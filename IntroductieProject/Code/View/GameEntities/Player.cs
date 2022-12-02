@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.Security.Cryptography;
 using IntroductieProject.Code.View.GameEntities.Weapons;
 using System.Reflection.Metadata;
+using System.Security;
 
 namespace IntroductieProject
 {
@@ -32,9 +33,12 @@ namespace IntroductieProject
         Weapon weapon1;
         Weapon weapon2;
         Weapon[] weaponList = new Weapon[2];
+        List<Weapon> droppedWeapons;
         Weapon currentWeapon;
         float weaponSwapCooldown;
         bool canSwapWeapon;
+        Vector2 gunPosition;
+        Weapon previousHeldWeapon;
 
         SpriteFont font;
 
@@ -57,11 +61,11 @@ namespace IntroductieProject
         public float SpecialAbilityCooldownTimer { get { return specialAbilityCooldownTimer; } protected set { specialAbilityCooldownTimer = value; } }
         public float NormalAbilityCooldownTimer { get { return normalAbilityCooldownTimer; } protected set { normalAbilityCooldownTimer = value; } }
 
-        public Player(Vector2 center, int width, int height, string assetName) : base (center, width, height, assetName)
+        public Player(Vector2 center, int width, int height, string assetName) : base(center, width, height, assetName)
         {
 
-            weapon2 = new Shotgun(centerPosition, 0, 0,"Shotgun");
-            weapon1 = new LaserGun(centerPosition, 0, 0, "LaserRifle");
+            weapon2 = new Pistol(new Vector2(centerPosition.X, centerPosition.Y), 0, 0);
+            weapon1 = new LaserGun(new Vector2(centerPosition.X, centerPosition.Y), 0, 0);
             weaponList[0] = weapon1;
             weaponList[1] = weapon2;
             currentWeapon = weaponList[0];
@@ -71,13 +75,19 @@ namespace IntroductieProject
 
             items = new List<Item>();
             orbitals = new List<Orbital>();
+            droppedWeapons = new List<Weapon>();
 
-            item = new damageUp(new Vector2(100,100), 32, 32, "damageUpSprite");
+            item = new damageUp(new Vector2(100, 100), 32, 32, "damageUpSprite");
             item2 = new healthUp(new Vector2(200, 100), 32, 32, "damageUpSprite");
 
-            orbitals.Add(new Orbital(200,new Vector2(center.X + 100, center.Y), 40, 40, 1, 10, "BlueProjectile"));
+            orbitals.Add(new Orbital(200, new Vector2(center.X + 100, center.Y), 40, 40, 1, 10, "BlueProjectile"));
             orbitals.Add(new Orbital(300, new Vector2(center.X + 100, center.Y), 40, 40, 1, 10, "BlueProjectile"));
             orbitals.Add(new Orbital(100, new Vector2(center.X + 100, center.Y), 40, 40, 1, 10, "BlueProjectile"));
+
+            droppedWeapons.Add(new Pistol(new Vector2(400, 400), 0, 0));
+            droppedWeapons.Add(new Sniper(new Vector2(500, 400), 0, 0));
+            droppedWeapons.Add(new Shotgun(new Vector2(600, 400), 0, 0));
+            droppedWeapons.Add(new LaserGun(new Vector2(700, 400), 0, 0));
 
             projectiles = new List<Projectile>();
 
@@ -94,18 +104,19 @@ namespace IntroductieProject
         //Displays all player info on the console
         public void AllInfo()
         {
-            
+
             Console.WriteLine("Class: " + currentClass + " MaxHealth: " + MaxHealth + " Health: " + Health + " DamageMultiplier: " + DamageMultiplier + " MoveSpeed: " + MoveSpeed + " IsAlive: " + IsAlive + " CanTakeDamage: " + CanTakeDamage);
             Console.WriteLine(" NormalAbilityCooldown: " + normalAbilityCooldownTimer + " CanNormalAbility: " + canNormalAbility + " SpecialAbilityCooldown: " + specialAbilityCooldownTimer + " CanSpecialAbility: " + canSpecialAbility + " SpecialAbilityDuration: " + specialAbilityTimer);
         }
         public void AllInfo(SpriteBatch spritebatch)
         {
-            spritebatch.DrawString(font, "Class: " + currentClass + " MaxHealth: " + MaxHealth + " Health: " + Health + " DamageMultiplier: " + DamageMultiplier + " MoveSpeed: " + MoveSpeed + " IsAlive: " + IsAlive + " CanTakeDamage: " + CanTakeDamage, new Vector2(10,10), Color.Red);
+            spritebatch.DrawString(font, "Class: " + currentClass + " MaxHealth: " + MaxHealth + " Health: " + Health + " DamageMultiplier: " + DamageMultiplier + " MoveSpeed: " + MoveSpeed + " IsAlive: " + IsAlive + " CanTakeDamage: " + CanTakeDamage, new Vector2(10, 10), Color.Red);
             spritebatch.DrawString(font, " NormalAbilityCooldown: " + normalAbilityCooldownTimer + " CanNormalAbility: " + canNormalAbility + " SpecialAbilityCooldown: " + specialAbilityCooldownTimer + " CanSpecialAbility: " + canSpecialAbility + " SpecialAbilityDuration: " + specialAbilityTimer, new Vector2(10, 40), Color.Red);
         }
 
         internal override void update(GameTime gameTime)
         {
+            HandleLasers();
 
             foreach (Orbital orbital in orbitals)
             {
@@ -115,12 +126,14 @@ namespace IntroductieProject
 
             foreach (Projectile p in projectiles.ToArray())
             {
-                if(p.Health <= 0)
-                   projectiles.Remove(p);
+                if (p.Health <= 0)
+                    projectiles.Remove(p);
             }
 
-            weaponList[0].updatePosition(centerPosition);
-            weaponList[1].updatePosition(centerPosition);
+            gunPosition = new Vector2(centerPosition.X + 32, centerPosition.Y);
+
+            weaponList[0].updatePosition(gunPosition);
+            weaponList[1].updatePosition(gunPosition);
             currentWeapon.update(gameTime);
 
             base.update(gameTime);
@@ -134,6 +147,9 @@ namespace IntroductieProject
             foreach (Projectile p in projectiles)
                 p.update(gameTime);
 
+            foreach (Weapon w in droppedWeapons)
+                w.update(gameTime);
+
             base.update(gameTime);
 
             InputHelper(gameTime);
@@ -143,13 +159,16 @@ namespace IntroductieProject
         {
             item.draw(batch);
             item2.draw(batch);
-            foreach(Orbital orbital in orbitals)
+            foreach (Orbital orbital in orbitals)
                 orbital.draw(batch);
 
             currentWeapon.draw(batch);
 
             foreach (Projectile p in projectiles)
                 p.draw(batch);
+
+            foreach (Weapon w in droppedWeapons)
+                w.draw(batch);
 
             AllInfo(batch);
 
@@ -160,7 +179,7 @@ namespace IntroductieProject
         public void ChangeStats(Item item)
         {
             this.Health += item.Health;
-            this.DamageMultiplier += item.Damage; 
+            this.DamageMultiplier += item.Damage;
             this.MoveSpeed += item.MoveSpeed;
             this.MaxHealth += item.MaxHealth;
             //items.Add(item); bij de oncollision
@@ -178,6 +197,16 @@ namespace IntroductieProject
             weaponList[1] = tempWeapon;
             currentWeapon = weaponList[0];
             weaponSwapCooldown = 1000;
+        }
+
+        //picks up a weapon on the ground
+        void PickUpWeapon(Weapon weapon)
+        {
+            previousHeldWeapon = currentWeapon;
+
+            currentWeapon = weapon;
+            weaponList[0] = currentWeapon;
+            droppedWeapons.Remove(weapon);
         }
 
         //Dash function for every character
@@ -245,6 +274,18 @@ namespace IntroductieProject
             specialAbilityCooldownTimer = specialAbilityCooldown;
             specialAbilityActive = false;
             AllInfo();
+        }
+
+        //Handles laser gun lasers and inputs
+        void HandleLasers()
+        {
+            foreach (Projectile p in projectiles.ToArray())
+            {
+                if (p.projectileAssetName == "laser")
+                {
+                    projectiles.Remove(p);
+                }
+            }
         }
 
         //Helps with the inputs
@@ -315,19 +356,33 @@ namespace IntroductieProject
             if (!InputManager.isKeyDown(Keys.A) && !InputManager.isKeyDown(Keys.W) && !InputManager.isKeyDown(Keys.S) && !InputManager.isKeyDown(Keys.D))
                 stopMoving();
             if (InputManager.isKeyDown(Keys.E))
-                if(canNormalAbility)
+                if (canNormalAbility)
                     NormalAbility();
             if (InputManager.isKeyDown(Keys.F))
-                if(canSpecialAbility)
+                if (canSpecialAbility)
                     SpecialAbility();
 
             if (InputManager.isKeyJustPressed(Keys.Q))
             {
-                if(canSwapWeapon)
+                if (canSwapWeapon)
                     SwapWeapon();
+            }
+
+            if (InputManager.isKeyJustPressed(Keys.X))
+            {  
+
+                foreach (Weapon w in droppedWeapons.ToArray())
+                {
+                    if (CollisionDetection(w) && w != previousHeldWeapon)
+                    {
+                        PickUpWeapon(w);
+                        droppedWeapons.Add(previousHeldWeapon);
+                    }
+                }
             }
 
         }
 
     }
 }
+

@@ -14,6 +14,7 @@ namespace IntroductieProject
     {
 
         public float gunRange { get; protected set; }
+        public string projectileAssetName { get; protected set; }
 
         public Vector2 startPosition;
 
@@ -28,6 +29,7 @@ namespace IntroductieProject
             this.gunRange = range;
             startPosition = center;
             RotationInDegress = AddRotation();
+            projectileAssetName = assetName;
         }
 
         internal override void update(GameTime gameTime)

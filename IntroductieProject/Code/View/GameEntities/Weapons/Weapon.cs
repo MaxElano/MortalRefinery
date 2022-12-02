@@ -43,7 +43,7 @@ namespace IntroductieProject
                 
                 canShoot = false;
             }
-        }
+        } 
 
         public Vector2 addSpread(Vector2 bulletDestination, int spreadStrength)
         {

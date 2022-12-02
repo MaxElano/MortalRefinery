@@ -7,7 +7,7 @@ namespace IntroductieProject
 {
     class Sniper : Weapon
     {
-        public Sniper(Vector2 center, int width, int height, string assetName) : base(center, width, height, assetName)
+        public Sniper(Vector2 center, int width, int height, string assetName = "Sniper") : base(center, width = 48, height = 32, assetName)
         {
             weaponFireRate = 1;
             shotSpeed = 30;

@@ -7,7 +7,7 @@ namespace IntroductieProject.Code.View.GameEntities.Weapons
 {
     class Shotgun : Weapon
     {
-        public Shotgun(Vector2 center, int width, int height, string assetName) : base(center, width = 48, height = 32, assetName)
+        public Shotgun(Vector2 center, int width, int height, string assetName = "Shotgun") : base(center, width = 48, height = 32, assetName)
         {
             weaponFireRate = 0.5f;
             shotSpeed = 20;
