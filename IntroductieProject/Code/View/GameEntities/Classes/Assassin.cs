@@ -10,7 +10,7 @@ namespace IntroductieProject
 {
     internal class Assassin : Player
     {
-        public Assassin(Vector2 center, int width, int height) : base(center, width, height, "Player/Player")
+        public Assassin(Vector2 center, int width, int height) : base(center, width, height, "Player/Assasin/AssasinPlayer")
         {
             currentClass = characterType.assassin;
 
