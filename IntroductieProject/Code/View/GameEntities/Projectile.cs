@@ -59,12 +59,15 @@ namespace IntroductieProject
 
         internal override void draw(SpriteBatch batch)
         {
-            batch.Draw(sprite, getBoundingBox(), null, Color.White, MathHelper.ToRadians(RotationInDegress), new Vector2(0, 0), spriteEffect, 0f);
+            batch.Draw(sprite, getBoundingBox(), null, Color.White, MathHelper.ToRadians(RotationInDegress), Vector2.Zero, spriteEffect, 0f);
         }
 
         internal override Rectangle getBoundingBox()
         {
-            return new Rectangle((int)this.centerPosition.X, (int)this.centerPosition.Y, width, height);
+            Vector2 temp = centerPosition;
+            temp -= new Vector2(width / 2 * (float)Math.Cos((double)MathHelper.ToRadians(RotationInDegress)), width / 2 * (float)Math.Sin((double)MathHelper.ToRadians(RotationInDegress)));
+
+            return new Rectangle((int)temp.X, (int)temp.Y, width, height);
         }
     }
 }
