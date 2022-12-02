@@ -25,19 +25,25 @@ namespace IntroductieProject
         /// </summary>
         internal BaseLevel(Vector2 center, int width, int height, string assetName = "background") : base(center, width, height, assetName)
         {
+            this.gameEntities.Add(new GameEntity(new Vector2(700, 700), 100, 100, "Temporary Tiles/Dash"));
+            this.gameEntities.Add(new GameEntity(new Vector2(800, 700), 100, 100, "Temporary Tiles/DamageUp"));
+            this.gameEntities.Add(new GameEntity(new Vector2(900, 700), 100, 100, "Temporary Tiles/HealthUp"));
+            this.gameEntities.Add(new GameEntity(new Vector2(1000, 700), 100, 100, "Temporary Tiles/ShieldUp"));
+            this.gameEntities.Add(new GameEntity(new Vector2(700, 200), 100, 100, "Temporary Tiles/WallSprite"));
+            this.gameEntities.Add(new GameEntity(new Vector2(800, 200), 100, 100, "Temporary Tiles/FloorSprite"));
+            this.gameEntities.Add(new GameEntity(new Vector2(900, 200), 100, 100, "Temporary Tiles/Walkway"));
+            this.gameEntities.Add(new GameEntity(new Vector2(1000, 200), 100, 100, "Temporary Tiles/HoleSprite"));
+            this.gameEntities.Add(new GameEntity(new Vector2(700, 400), 100, 100, "pistol"));
+            this.gameEntities.Add(new GameEntity(new Vector2(800, 400), 100, 100, "Shotgun"));
+            this.gameEntities.Add(new GameEntity(new Vector2(925, 400), 150, 100, "Sniper"));
+            this.gameEntities.Add(new GameEntity(new Vector2(1075, 400), 150, 100, "LaserRifle"));
             // A player and a bridge, and a lamp added, just to show how the code works.
             // You probably want to remove this code at some points
-            this.player = new Assassin(new Vector2(0, 0), 80, 80);
+            this.player = new Healer(new Vector2(0, 0), 80, 80);
             this.gameEntities.Add(player);
             this.gameEntities.Add(new RangedEnemy(new Vector2(700, 500), 120, 120, 10, 5, 10, this, "DroneEnemy", "RedProjectile"));
-
-            // "beatiful code" would let the lamp change its own sprite. This should not be the responsibility of this level class, so go and add code in GameEntity that can get its own sprite!
-            GameEntity lamp = new GameEntity(new Vector2(700, 700), 30, 100, "LampEnemy");
-
-            lamp.orientation = EntityOrientation.Right;
-            // We set the bridge to start moving
-            lamp.startMoving();
-            this.gameEntities.Add(lamp);
+            this.gameEntities.Add(new ChasingEnemy(new Vector2(500, 500), 100, 100, 10, 10, this, "KnifeRoombaEnemy"));
+            
 
             NormalAbilityCooldown_UI normalAbilityCooldown = new NormalAbilityCooldown_UI(new Vector2(60, 40), 20, 20, "damageUpSprite", player);
             this.gameEntities.Add(normalAbilityCooldown);
